@@ -3,6 +3,7 @@ package com.ifma.barbearia.services.implementation;
 import com.ifma.barbearia.DTOs.ClienteDto;
 import com.ifma.barbearia.entities.Cliente;
 import com.ifma.barbearia.exceptions.ClienteAlreadyExistsException;
+import com.ifma.barbearia.exceptions.ResourceNotFoundException;
 import com.ifma.barbearia.mappers.ClienteMapper;
 import com.ifma.barbearia.repositories.ClienteRepository;
 import com.ifma.barbearia.services.IClienteService;
@@ -29,7 +30,8 @@ public class ClienteServiceImpl implements IClienteService {
 
     @Override
     public ClienteDto buscarCliente(String email) {
-        return null;
+        Cliente cliente = clienteRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Cliente", "email", email));
+        return ClienteMapper.mapToClienteDto(cliente, new ClienteDto());
     }
 
     @Override

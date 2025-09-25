@@ -7,8 +7,8 @@ public class ClienteMapper {
 
     public static ClienteDto mapToClienteDto(Cliente cliente, ClienteDto clienteDto) {
         clienteDto.setNome(cliente.getNome());
-        clienteDto.setEmail(clienteDto.getEmail());
-        clienteDto.setTelefone(clienteDto.getTelefone());
+        clienteDto.setEmail(cliente.getEmail());
+        clienteDto.setTelefone(cliente.getTelefone());
         return clienteDto;
     }
 
