@@ -49,4 +49,18 @@ public class ClienteController {
         }
     }
 
+    @DeleteMapping("/deletarCliente")
+    public ResponseEntity<ResponseDto> deletarCliente(@RequestParam @Email(message = "Por favor, insira um endereço de email válido!") String email) {
+        boolean deletado = iClienteService.deletarCliente(email);
+        if (deletado) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(new ResponseDto(ClienteConstants.STATUS_200, ClienteConstants.MESSAGE_200));
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(new ResponseDto(ClienteConstants.STATUS_417, ClienteConstants.MESSAGE_417_DELETE));
+        }
+    }
+
 }

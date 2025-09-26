@@ -44,6 +44,8 @@ public class ClienteServiceImpl implements IClienteService {
 
     @Override
     public boolean deletarCliente(String email) {
-        return false;
+        Cliente cliente = clienteRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Cliente", "email", email));
+        clienteRepository.delete(cliente);
+        return true;
     }
 }
