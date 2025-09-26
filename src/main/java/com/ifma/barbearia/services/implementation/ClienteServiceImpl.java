@@ -36,7 +36,10 @@ public class ClienteServiceImpl implements IClienteService {
 
     @Override
     public boolean atualizarCliente(ClienteDto clienteDto) {
-        return false;
+        Cliente cliente = clienteRepository.findByEmail(clienteDto.getEmail()).orElseThrow(() -> new ResourceNotFoundException("Cliente", "email", clienteDto.getEmail()));
+        ClienteMapper.mapToCliente(clienteDto, cliente);
+        clienteRepository.save(cliente);
+        return true;
     }
 
     @Override

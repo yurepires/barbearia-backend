@@ -35,4 +35,18 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.OK).body(clienteDto);
     }
 
+    @PutMapping("/atualizarCliente")
+    public ResponseEntity<ResponseDto> atualizarCliente(@Valid @RequestBody ClienteDto clienteDto) {
+        boolean atualizado = iClienteService.atualizarCliente(clienteDto);
+        if (atualizado) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(new ResponseDto(ClienteConstants.STATUS_200, ClienteConstants.MESSAGE_200));
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.EXPECTATION_FAILED)
+                    .body(new ResponseDto(ClienteConstants.STATUS_417, ClienteConstants.MESSAGE_417_UPDATE));
+        }
+    }
+
 }
