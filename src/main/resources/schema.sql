@@ -1,6 +1,12 @@
 CREATE TABLE IF NOT EXISTS `cliente` (
-    id_cliente BIGINT PRIMARY KEY AUTO_INCREMENT,
+    cliente_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(20) UNIQUE,
     telefone VARCHAR(20)
+);
+CREATE TABLE IF NOT EXISTS `servico` (
+    servico_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    preco DOUBLE NOT NULL,
+    descricao VARCHAR(255)
 );
