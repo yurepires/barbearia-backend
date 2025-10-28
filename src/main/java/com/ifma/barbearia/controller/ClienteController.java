@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
@@ -33,6 +35,12 @@ public class ClienteController {
     public ResponseEntity<ClienteDto> buscarCliente(@RequestParam @Email(message = "Por favor, insira um endereço de email válido!") String email) {
         ClienteDto clienteDto = iClienteService.buscarCliente(email);
         return ResponseEntity.status(HttpStatus.OK).body(clienteDto);
+    }
+
+    @GetMapping("/buscarTodosClientes")
+    public ResponseEntity<List<ClienteDto>> buscarTodosClientes() {
+        List<ClienteDto> clienteDtos = iClienteService.buscarTodosClientes();
+        return ResponseEntity.status(HttpStatus.OK).body(clienteDtos);
     }
 
     @PutMapping("/atualizarCliente")
