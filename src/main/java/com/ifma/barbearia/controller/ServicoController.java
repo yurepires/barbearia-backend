@@ -5,13 +5,14 @@ import com.ifma.barbearia.DTOs.ResponseDto;
 import com.ifma.barbearia.constants.ServicoConstants;
 import com.ifma.barbearia.services.IServicoService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,6 +34,12 @@ public class ServicoController {
     public ResponseEntity<ServicoDto> buscarServico(@RequestParam Long servicoId) {
         ServicoDto servicoDto = iServicoService.buscarServico(servicoId);
         return ResponseEntity.status(HttpStatus.OK).body(servicoDto);
+    }
+
+    @GetMapping("/buscarTodosServicos")
+    public ResponseEntity<List<ServicoDto>> buscarTodosServicos() {
+        List<ServicoDto> servicoDtos = iServicoService.buscarTodosServicos();
+        return ResponseEntity.status(HttpStatus.OK).body(servicoDtos);
     }
 
     @PutMapping("/atualizarServico")

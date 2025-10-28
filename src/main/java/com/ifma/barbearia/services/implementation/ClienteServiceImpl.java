@@ -10,7 +10,6 @@ import com.ifma.barbearia.services.IClienteService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,12 +37,9 @@ public class ClienteServiceImpl implements IClienteService {
 
     @Override
     public List<ClienteDto> buscarTodosClientes() {
-        List<Cliente> clientes = clienteRepository.findAll();
-        List<ClienteDto> clienteDtos = new ArrayList<>();
-        for (Cliente cliente : clientes) {
-            clienteDtos.add(ClienteMapper.mapToClienteDto(cliente, new ClienteDto()));
-        }
-        return clienteDtos;
+        return clienteRepository.findAll().stream()
+                .map(cliente -> ClienteMapper.mapToClienteDto(cliente, new ClienteDto()))
+                .toList();
     }
 
     @Override

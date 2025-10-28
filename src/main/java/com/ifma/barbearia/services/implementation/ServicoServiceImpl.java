@@ -10,6 +10,7 @@ import com.ifma.barbearia.services.IServicoService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,6 +35,13 @@ public class ServicoServiceImpl implements IServicoService {
         Servico servico = servicoRepository.findByServicoId(servicoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Serviço", "id", Long.toString(servicoId)));
         return ServicoMapper.mapToServicoDto(servico, new ServicoDto());
+    }
+
+    @Override
+    public List<ServicoDto> buscarTodosServicos() {
+        return servicoRepository.findAll().stream()
+                .map(servico -> ServicoMapper.mapToServicoDto(servico, new ServicoDto()))
+                .toList();
     }
 
     @Override
