@@ -15,11 +15,9 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final IAdmUserService admUserService;
-    private final JwtUtil jwtUtil;
 
-    public AuthController(IAdmUserService admUserService, JwtUtil jwtUtil) {
+    public AuthController(IAdmUserService admUserService) {
         this.admUserService = admUserService;
-        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("admin/login")

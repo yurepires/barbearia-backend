@@ -30,26 +30,21 @@ public class SecurityConfig {
                 .cors(c -> {
                 })
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/barbeiros/**", "/servicos/**")
+                        .requestMatchers("/api/admin/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/barbeiros/**", "/api/servicos/**")
                         .hasAuthority("ADM")
-                        .requestMatchers(HttpMethod.PUT, "/barbeiros/**", "/clientes/**", "/servicos/**")
+                        .requestMatchers(HttpMethod.PUT, "/api/barbeiros/**", "/api/clientes/**", "/api/servicos/**")
                         .hasAuthority("ADM")
-                        .requestMatchers(HttpMethod.DELETE, "/barbeiros/**", "/clientes/**", "/servicos/**")
+                        .requestMatchers(HttpMethod.DELETE, "/api/barbeiros/**", "/api/clientes/**", "/api/servicos/**")
                         .hasAuthority("ADM")
                         .anyRequest().permitAll())
-                .addFilterBefore(new JwtAuthFilter(jwtUtil),
+                .addFilterBefore(new JwtAuthFilter(),
                         org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
     static class JwtAuthFilter extends OncePerRequestFilter {
-        private final JwtUtil jwtUtil;
-
-        public JwtAuthFilter(JwtUtil jwtUtil) {
-            this.jwtUtil = jwtUtil;
-        }
 
         @Override
         protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
