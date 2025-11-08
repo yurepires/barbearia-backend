@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/cliente", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 @Validated
 public class ClienteController {
@@ -32,7 +32,8 @@ public class ClienteController {
     }
 
     @GetMapping("/buscarCliente")
-    public ResponseEntity<ClienteDto> buscarCliente(@RequestParam @Email(message = "Por favor, insira um endereço de email válido!") String email) {
+    public ResponseEntity<ClienteDto> buscarCliente(
+            @RequestParam @Email(message = "Por favor, insira um endereço de email válido!") String email) {
         ClienteDto clienteDto = iClienteService.buscarCliente(email);
         return ResponseEntity.status(HttpStatus.OK).body(clienteDto);
     }
@@ -58,7 +59,8 @@ public class ClienteController {
     }
 
     @DeleteMapping("/deletarCliente")
-    public ResponseEntity<ResponseDto> deletarCliente(@RequestParam @Email(message = "Por favor, insira um endereço de email válido!") String email) {
+    public ResponseEntity<ResponseDto> deletarCliente(
+            @RequestParam @Email(message = "Por favor, insira um endereço de email válido!") String email) {
         boolean deletado = iClienteService.deletarCliente(email);
         if (deletado) {
             return ResponseEntity

@@ -31,13 +31,19 @@ public class SecurityConfig {
                 })
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/admin/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/barbeiros/**", "/api/servicos/**")
+                        .requestMatchers("/api/cliente/auth/**").permitAll()
+
+                        .requestMatchers(HttpMethod.POST, "/api/barbeiro/**", "/api/servico/**")
                         .hasAuthority("ADM")
-                        .requestMatchers(HttpMethod.PUT, "/api/barbeiros/**", "/api/clientes/**", "/api/servicos/**")
+                        .requestMatchers(HttpMethod.PUT, "/api/barbeiro/**", "/api/cliente/**", "/api/servico/**")
                         .hasAuthority("ADM")
-                        .requestMatchers(HttpMethod.DELETE, "/api/barbeiros/**", "/api/clientes/**", "/api/servicos/**")
+                        .requestMatchers(HttpMethod.DELETE, "/api/barbeiro/**", "/api/cliente/**", "/api/servico/**")
                         .hasAuthority("ADM")
+
                         .anyRequest().permitAll())
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) -> response
+                                .sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")))
                 .addFilterBefore(new JwtAuthFilter(),
                         org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
 

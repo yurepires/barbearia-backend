@@ -9,7 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/api/cliente", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/cliente/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ClienteAuthController {
 
     private final IClienteOtpService clienteOtpService;
@@ -18,13 +18,13 @@ public class ClienteAuthController {
         this.clienteOtpService = clienteOtpService;
     }
 
-    @PostMapping("/gerar-Otp")
+    @PostMapping("/gerarOtp")
     public ResponseEntity<String> gerarOtp(@RequestBody OtpRequestDto request) {
         clienteOtpService.enviarCodigoPorEmail(request);
         return ResponseEntity.ok("OTP enviado para o email.");
     }
 
-    @PostMapping("/validar-Otp")
+    @PostMapping("/validarOtp")
     public ResponseEntity<OtpResponseDto> validarOtp(@RequestBody OtpValidateDto validateDto) {
         OtpResponseDto response = clienteOtpService.validarCodigo(validateDto);
         return ResponseEntity.ok(response);

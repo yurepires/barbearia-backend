@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/admin/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthController {
 
     private final IAdmUserService admUserService;
@@ -20,7 +20,7 @@ public class AuthController {
         this.admUserService = admUserService;
     }
 
-    @PostMapping("admin/login")
+    @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
         AdmUser user = admUserService.findByUsername(authRequest.getUsername());
 
