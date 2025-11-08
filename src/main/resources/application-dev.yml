@@ -12,3 +12,5 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
+  sendgrid:
+    api-key: ${SENDGRID_API_KEY}
