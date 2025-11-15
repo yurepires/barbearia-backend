@@ -16,3 +16,5 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+  sendgrid:
+    api-key: ${SENDGRID_API_KEY}
