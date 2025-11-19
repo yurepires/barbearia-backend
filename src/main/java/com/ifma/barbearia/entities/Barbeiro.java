@@ -3,6 +3,8 @@ package com.ifma.barbearia.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -20,4 +22,8 @@ public class Barbeiro {
     private String email;
 
     private String telefone;
+
+    @OneToMany(mappedBy = "barbeiro")
+    private List<Agendamento> agendamentos;
+
 }

@@ -1,0 +1,32 @@
+package com.ifma.barbearia.entities;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Getter @Setter @ToString @AllArgsConstructor @NoArgsConstructor
+public class Agendamento extends EntidadeBase{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long agendamentoId;
+
+    private LocalDateTime horario;
+
+    private String status;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
+
+    @ManyToOne
+    @JoinColumn(name = "servico_id")
+    private Servico servico;
+
+    @ManyToOne
+    @JoinColumn(name = "barbeiro_id")
+    private Barbeiro barbeiro;
+
+}

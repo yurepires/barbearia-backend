@@ -3,6 +3,8 @@ package com.ifma.barbearia.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter @Setter @ToString @AllArgsConstructor @NoArgsConstructor
 public class Cliente extends EntidadeBase {
@@ -17,5 +19,11 @@ public class Cliente extends EntidadeBase {
     private String email;
 
     private String telefone;
+
+    @OneToMany(mappedBy = "cliente")
+    private List<Agendamento> agendamentos;
+
+    @OneToMany(mappedBy = "cliente")
+    private List<HistoricoAtendimento> historico;
 
 }

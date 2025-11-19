@@ -8,6 +8,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -26,7 +28,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtUtil jwtUtil) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .cors(c -> {
                 })
                 .authorizeHttpRequests(auth -> auth
@@ -45,7 +47,10 @@ public class SecurityConfig {
                         .authenticationEntryPoint((request, response, authException) -> response
                                 .sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")))
                 .addFilterBefore(new JwtAuthFilter(),
-                        org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
+                        org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
+
+                // mostrar o h2-console
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
 
         return http.build();
     }
