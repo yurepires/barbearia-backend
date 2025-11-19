@@ -40,6 +40,12 @@ public class AgendamentoController {
         return ResponseEntity.status(HttpStatus.OK).body(agendamentoDtoList);
     }
 
+    @GetMapping("/buscarPorCliente")
+    public ResponseEntity<List<AgendamentoDto>> buscarPorCliente(@RequestParam Long clienteId) {
+        List<AgendamentoDto> agendamentoDtoList = iAgendamentoService.buscarAgendamentosPorCliente(clienteId);
+        return ResponseEntity.status(HttpStatus.OK).body(agendamentoDtoList);
+    }
+
     @PutMapping("/atualizarAgendamento")
     public ResponseEntity<ResponseDto> atualizarAgendamento(@Valid @RequestBody AgendamentoDto agendamentoDto) {
         boolean atualizado = iAgendamentoService.atualizarAgendamento(agendamentoDto);

@@ -65,6 +65,16 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
     }
 
     @Override
+    public List<AgendamentoDto> buscarAgendamentosPorCliente(Long clienteId) {
+        Cliente cliente = verificarClienteId(clienteId);
+
+        List<Agendamento> agendamentos = agendamentoRepository.findByCliente_ClienteId(clienteId);
+        return agendamentos.stream()
+                .map((Agendamento agendamento) -> AgendamentoMapper.mapToAgendamentoDto(agendamento, new AgendamentoDto()))
+                .toList();
+    }
+
+    @Override
     public boolean atualizarAgendamento(AgendamentoDto agendamentoDto) {
         Agendamento agendamento = verificarAgendamento(agendamentoDto.getId());
 

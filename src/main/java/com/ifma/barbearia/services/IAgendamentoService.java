@@ -12,6 +12,8 @@ public interface IAgendamentoService {
 
     List<AgendamentoDto> buscarTodosAgendamentos();
 
+    List<AgendamentoDto> buscarAgendamentosPorCliente(Long clienteId);
+
     boolean atualizarAgendamento(AgendamentoDto agendamentoDto);
 
     boolean deletarAgendamento(Long agendamentoId);
