@@ -7,6 +7,7 @@ import com.ifma.barbearia.services.IHistoricoAtendimentoService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -46,5 +47,10 @@ public class IHistoricoAtendimentoServiceImpl implements IHistoricoAtendimentoSe
     @Override
     public List<HistoricoAtendimento> listarPorServico(Long servicoId) {
         return historicoAtendimentoRepository.findByServico_ServicoId(servicoId);
+    }
+
+    @Override
+    public List<HistoricoAtendimento> listarPorIntervaloDeDatas(LocalDate inicio, LocalDate fim) {
+        return historicoAtendimentoRepository.findByDataBetween(inicio.atStartOfDay(), fim.atTime(23,59,59));
     }
 }

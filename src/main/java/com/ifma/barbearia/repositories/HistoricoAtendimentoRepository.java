@@ -19,6 +19,6 @@ public interface HistoricoAtendimentoRepository extends JpaRepository<HistoricoA
     List<HistoricoAtendimento> findByServico_ServicoId(Long servicoId);
 
     // histórico de um intervalo de tempo
-    List<HistoricoAtendimento> findByDataBetween(LocalDateTime inicio, LocalDateTime fim);
+    List<HistoricoAtendimento> findByDataBetween(LocalDateTime data, LocalDateTime data2);
 
 }

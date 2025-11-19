@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -41,6 +42,13 @@ public class HistoricoAtendimentoController {
     @GetMapping("/listarPorServico")
     public List<HistoricoAtendimentoDto> historicoAtendimentoPorServico(@RequestParam Long servicoId) {
         return iHistoricoAtendimentoService.listarPorServico(servicoId).stream()
+                .map((HistoricoAtendimento historicoAtendimento) -> HistoricoAtendimentoMapper.mapToHistoricoAtendimentoDto(historicoAtendimento, new HistoricoAtendimentoDto()))
+                .toList();
+    }
+
+    @GetMapping("/listarPorIntervaloDeData")
+    public List<HistoricoAtendimentoDto> listarPorIntervaloDeData(@RequestParam LocalDate inicio, @RequestParam LocalDate fim) {
+        return iHistoricoAtendimentoService.listarPorIntervaloDeDatas(inicio, fim).stream()
                 .map((HistoricoAtendimento historicoAtendimento) -> HistoricoAtendimentoMapper.mapToHistoricoAtendimentoDto(historicoAtendimento, new HistoricoAtendimentoDto()))
                 .toList();
     }

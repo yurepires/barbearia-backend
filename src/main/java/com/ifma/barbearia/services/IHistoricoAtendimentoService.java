@@ -3,6 +3,7 @@ package com.ifma.barbearia.services;
 import com.ifma.barbearia.entities.Agendamento;
 import com.ifma.barbearia.entities.HistoricoAtendimento;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface IHistoricoAtendimentoService {
@@ -16,5 +17,7 @@ public interface IHistoricoAtendimentoService {
     List<HistoricoAtendimento> listarPorBarbeiro(Long barbeiroId);
 
     List<HistoricoAtendimento> listarPorServico(Long servicoId);
+
+    List<HistoricoAtendimento> listarPorIntervaloDeDatas(LocalDate inicio, LocalDate fim);
 
 }
