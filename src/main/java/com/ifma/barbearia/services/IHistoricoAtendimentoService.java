@@ -9,8 +9,12 @@ public interface IHistoricoAtendimentoService {
 
     void registrar(Agendamento agendamento, Double valorPago);
 
+    List<HistoricoAtendimento> listarTodos();
+
     List<HistoricoAtendimento> listarPorCliente(Long clienteId);
 
     List<HistoricoAtendimento> listarPorBarbeiro(Long barbeiroId);
+
+    List<HistoricoAtendimento> listarPorServico(Long servicoId);
 
 }

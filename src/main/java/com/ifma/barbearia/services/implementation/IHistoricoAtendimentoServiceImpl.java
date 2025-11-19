@@ -29,6 +29,11 @@ public class IHistoricoAtendimentoServiceImpl implements IHistoricoAtendimentoSe
     }
 
     @Override
+    public List<HistoricoAtendimento> listarTodos() {
+        return historicoAtendimentoRepository.findAll();
+    }
+
+    @Override
     public List<HistoricoAtendimento> listarPorCliente(Long clienteId) {
         return historicoAtendimentoRepository.findByCliente_ClienteId(clienteId);
     }
@@ -36,5 +41,10 @@ public class IHistoricoAtendimentoServiceImpl implements IHistoricoAtendimentoSe
     @Override
     public List<HistoricoAtendimento> listarPorBarbeiro(Long barbeiroId) {
         return historicoAtendimentoRepository.findByBarbeiro_BarbeiroId(barbeiroId);
+    }
+
+    @Override
+    public List<HistoricoAtendimento> listarPorServico(Long servicoId) {
+        return historicoAtendimentoRepository.findByServico_ServicoId(servicoId);
     }
 }

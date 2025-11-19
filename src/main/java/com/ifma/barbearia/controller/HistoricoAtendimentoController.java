@@ -17,6 +17,13 @@ public class HistoricoAtendimentoController {
 
     private IHistoricoAtendimentoService iHistoricoAtendimentoService;
 
+    @GetMapping("/listarTodos")
+    public List<HistoricoAtendimentoDto> listarTodos() {
+        return iHistoricoAtendimentoService.listarTodos().stream()
+                .map((HistoricoAtendimento historicoAtendimento) -> HistoricoAtendimentoMapper.mapToHistoricoAtendimentoDto(historicoAtendimento, new HistoricoAtendimentoDto()))
+                .toList();
+    }
+
     @GetMapping("/listarPorCliente")
     public List<HistoricoAtendimentoDto> historicoAtendimentoPorCliente(@RequestParam Long clienteId) {
         return iHistoricoAtendimentoService.listarPorCliente(clienteId)
@@ -28,6 +35,13 @@ public class HistoricoAtendimentoController {
     public List<HistoricoAtendimentoDto> historicoAtendimentoPorBarbeiro(@RequestParam Long barbeiroId) {
         return iHistoricoAtendimentoService.listarPorBarbeiro(barbeiroId)
                 .stream().map((HistoricoAtendimento historicoAtendimento) -> HistoricoAtendimentoMapper.mapToHistoricoAtendimentoDto(historicoAtendimento, new HistoricoAtendimentoDto()))
+                .toList();
+    }
+
+    @GetMapping("/listarPorServico")
+    public List<HistoricoAtendimentoDto> historicoAtendimentoPorServico(@RequestParam Long servicoId) {
+        return iHistoricoAtendimentoService.listarPorServico(servicoId).stream()
+                .map((HistoricoAtendimento historicoAtendimento) -> HistoricoAtendimentoMapper.mapToHistoricoAtendimentoDto(historicoAtendimento, new HistoricoAtendimentoDto()))
                 .toList();
     }
 
