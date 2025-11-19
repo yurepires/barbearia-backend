@@ -4,6 +4,9 @@ public class AgendamentoConstants {
 
     private AgendamentoConstants () {}
 
+    public static final String STATUS_PENDENTE = "PENDENTE";
+    public static final String STATUS_CONCLUIDO = "CONCLUIDO";
+    public static final String STATUS_CANCELADO = "CANCELADO";
     public static final String  STATUS_201 = "201";
     public static final String  MESSAGE_201 = "Agendamento criado com sucesso";
     public static final String  STATUS_200 = "200";

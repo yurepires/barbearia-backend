@@ -1,6 +1,7 @@
 package com.ifma.barbearia.services.implementation;
 
 import com.ifma.barbearia.DTOs.AgendamentoDto;
+import com.ifma.barbearia.constants.AgendamentoConstants;
 import com.ifma.barbearia.entities.Agendamento;
 import com.ifma.barbearia.entities.Barbeiro;
 import com.ifma.barbearia.entities.Cliente;
@@ -12,10 +13,10 @@ import com.ifma.barbearia.repositories.BarbeiroRepository;
 import com.ifma.barbearia.repositories.ClienteRepository;
 import com.ifma.barbearia.repositories.ServicoRepository;
 import com.ifma.barbearia.services.IAgendamentoService;
+import com.ifma.barbearia.services.IHistoricoAtendimentoService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -28,6 +29,7 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
     private ClienteRepository clienteRepository;
     private ServicoRepository servicoRepository;
     private BarbeiroRepository barbeiroRepository;
+    private IHistoricoAtendimentoService iHistoricoAtendimentoService;
 
     @Override
     public void criarAgendamento(AgendamentoDto agendamentoDto) {
@@ -44,14 +46,14 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
         }
 
         Agendamento agendamento = AgendamentoMapper.mapToAgendamento(agendamentoDto, new Agendamento(), cliente, servico, barbeiro);
-        agendamento.setStatus("AGENDADO");
+        agendamento.setStatus(AgendamentoConstants.STATUS_PENDENTE);
 
         agendamentoRepository.save(agendamento);
     }
 
     @Override
     public AgendamentoDto buscarAgendamento(Long agendamentoId) {
-        Agendamento agendamento = agendamentoRepository.findById(agendamentoId).orElseThrow(() -> new ResourceNotFoundException("Agendamento", "id", agendamentoId.toString()));
+        Agendamento agendamento = verificarAgendamento(agendamentoId);
         return AgendamentoMapper.mapToAgendamentoDto(agendamento, new AgendamentoDto());
     }
 
@@ -64,7 +66,7 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
 
     @Override
     public boolean atualizarAgendamento(AgendamentoDto agendamentoDto) {
-        Agendamento agendamento = agendamentoRepository.findById(agendamentoDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Agendamento", "id", agendamentoDto.getId().toString()));
+        Agendamento agendamento = verificarAgendamento(agendamentoDto.getId());
 
         Cliente cliente = verificarClienteId(agendamentoDto.getClienteId());
         Servico servico = verificarServicoId(agendamentoDto.getServicoId());
@@ -77,31 +79,48 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
 
     @Override
     public boolean deletarAgendamento(Long agendamentoId) {
-        Agendamento agendamento = agendamentoRepository.findById(agendamentoId).orElseThrow(() -> new ResourceNotFoundException("Agendamento", "id", agendamentoId.toString()));
+        Agendamento agendamento = verificarAgendamento(agendamentoId);
         agendamentoRepository.delete(agendamento);
         return true;
     }
 
+    @Override
+    public void concluirAgendamento(Long agendamentoId) {
+        Agendamento agendamento = verificarAgendamento(agendamentoId);
+
+        if (agendamento.getStatus().equals(AgendamentoConstants.STATUS_CANCELADO)) {
+            throw new IllegalArgumentException("Não é possível concluir um agendamento cancelado.");
+        }
+
+        if (agendamento.getStatus().equals(AgendamentoConstants.STATUS_CONCLUIDO)) {
+            throw new IllegalArgumentException("Este agendamento já está concluído.");
+        }
+
+        agendamento.setStatus(AgendamentoConstants.STATUS_CONCLUIDO);
+
+        iHistoricoAtendimentoService.registrar(agendamento, agendamento.getServico().getPreco());
+
+    }
+
+
+    private Agendamento verificarAgendamento(Long agendamentoId) {
+        return agendamentoRepository.findById(agendamentoId).orElseThrow(() -> new ResourceNotFoundException("Agendamento", "id", agendamentoId.toString()));
+    }
+
     private Cliente verificarClienteId(Long clienteId) {
-        return clienteRepository.findById(clienteId)
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente", "id", clienteId.toString()));
+        return clienteRepository.findById(clienteId).orElseThrow(() -> new ResourceNotFoundException("Cliente", "id", clienteId.toString()));
     }
 
     private Servico verificarServicoId(Long ServicoId) {
-        return servicoRepository.findById(ServicoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Servico", "id", ServicoId.toString()));
+        return servicoRepository.findById(ServicoId).orElseThrow(() -> new ResourceNotFoundException("Servico", "id", ServicoId.toString()));
     }
 
     private Barbeiro verificarBarbeiroId(Long BarbeiroId) {
-        return barbeiroRepository.findById(BarbeiroId)
-                .orElseThrow(() -> new ResourceNotFoundException("Barbeiro", "id", BarbeiroId.toString()));
+        return barbeiroRepository.findById(BarbeiroId).orElseThrow(() -> new ResourceNotFoundException("Barbeiro", "id", BarbeiroId.toString()));
     }
 
 
     private void validarHorario(LocalDateTime horario) {
-        if (horario.getDayOfWeek() == DayOfWeek.TUESDAY) {
-            throw new IllegalArgumentException("Não é possível agendar na terça-feira.");
-        }
 
         LocalTime aberturaDaBarbearia = LocalTime.of(7, 0);
         LocalTime FechamentoDaBarbearia = LocalTime.of(21, 0);
@@ -115,3 +134,4 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
         }
     }
 }
+

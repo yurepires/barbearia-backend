@@ -6,7 +6,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter @Setter @ToString @AllArgsConstructor @NoArgsConstructor
+@Getter @Setter @AllArgsConstructor @NoArgsConstructor
 public class HistoricoAtendimento extends EntidadeBase{
 
     @Id
@@ -17,11 +17,15 @@ public class HistoricoAtendimento extends EntidadeBase{
     private Double valorPago;
 
     @ManyToOne
-    @JoinColumn(name = "servico_id")
+    @JoinColumn(name = "barbeiro_id", nullable = false)
+    private Barbeiro barbeiro;
+
+    @ManyToOne
+    @JoinColumn(name = "servico_id", nullable = false)
     private Servico servico;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
 }

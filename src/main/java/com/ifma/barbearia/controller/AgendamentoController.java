@@ -59,4 +59,10 @@ public class AgendamentoController {
         }
     }
 
+    @PatchMapping("/concluirAgendamento")
+    public ResponseEntity<ResponseDto> concluirAgendamento(@RequestParam Long agendamentoId) {
+        iAgendamentoService.concluirAgendamento(agendamentoId);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(AgendamentoConstants.STATUS_200, AgendamentoConstants.MESSAGE_200));
+    }
+
 }

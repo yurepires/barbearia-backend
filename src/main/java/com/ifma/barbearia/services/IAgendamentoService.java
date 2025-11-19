@@ -16,4 +16,6 @@ public interface IAgendamentoService {
 
     boolean deletarAgendamento(Long agendamentoId);
 
+    void concluirAgendamento(Long agendamentoId);
+
 }

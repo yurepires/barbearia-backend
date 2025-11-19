@@ -1,9 +1,11 @@
 package com.ifma.barbearia.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter @Setter @ToString @AllArgsConstructor @NoArgsConstructor
@@ -21,9 +23,11 @@ public class Cliente extends EntidadeBase {
     private String telefone;
 
     @OneToMany(mappedBy = "cliente")
-    private List<Agendamento> agendamentos;
+    @JsonIgnore
+    private Set<Agendamento> agendamentos = new HashSet<>();
 
     @OneToMany(mappedBy = "cliente")
-    private List<HistoricoAtendimento> historico;
+    @JsonIgnore
+    private Set<HistoricoAtendimento> historico = new HashSet<>();
 
 }
