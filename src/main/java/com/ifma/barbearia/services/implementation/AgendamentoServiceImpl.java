@@ -6,7 +6,7 @@ import com.ifma.barbearia.entities.Agendamento;
 import com.ifma.barbearia.entities.Barbeiro;
 import com.ifma.barbearia.entities.Cliente;
 import com.ifma.barbearia.entities.Servico;
-import com.ifma.barbearia.exceptions.ResourceNotFoundException;
+import com.ifma.barbearia.exceptions.*;
 import com.ifma.barbearia.mappers.AgendamentoMapper;
 import com.ifma.barbearia.repositories.AgendamentoRepository;
 import com.ifma.barbearia.repositories.BarbeiroRepository;
@@ -39,10 +39,10 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
 
         validarHorario(agendamentoDto.getHorario());
 
-        boolean mesmoBarbeiroHorario = agendamentoRepository.existsByBarbeiro_BarbeiroIdAndHorario(agendamentoDto.getBarbeiroId(), agendamentoDto.getHorario());
+        boolean mesmoBarbeiroHorario = agendamentoRepository.existsByBarbeiro_BarbeiroIdAndHorarioAndStatus(agendamentoDto.getBarbeiroId(), agendamentoDto.getHorario(), AgendamentoConstants.STATUS_PENDENTE);
 
         if (mesmoBarbeiroHorario) {
-            throw new IllegalArgumentException("Já existe um agendamento para este barbeiro neste horário.");
+            throw new HorarioIndisponivelException("Já existe um agendamento para este barbeiro neste horário.");
         }
 
         Agendamento agendamento = AgendamentoMapper.mapToAgendamento(agendamentoDto, new Agendamento(), cliente, servico, barbeiro);
@@ -88,9 +88,19 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
     }
 
     @Override
-    public boolean deletarAgendamento(Long agendamentoId) {
+    public boolean cancelarAgendamento(Long agendamentoId) {
         Agendamento agendamento = verificarAgendamento(agendamentoId);
-        agendamentoRepository.delete(agendamento);
+
+        if (agendamento.getStatus().equals(AgendamentoConstants.STATUS_CONCLUIDO)) {
+            throw new CancelamentoInvalidoException("Não é possível cancelar um agendamento já concluído.");
+        }
+
+        if (agendamento.getStatus().equals(AgendamentoConstants.STATUS_CANCELADO)) {
+            throw new CancelamentoInvalidoException("Este argumento já foi cancelado.");
+        }
+
+        agendamento.setStatus(AgendamentoConstants.STATUS_CANCELADO);
+        agendamentoRepository.save(agendamento);
         return true;
     }
 
@@ -99,11 +109,11 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
         Agendamento agendamento = verificarAgendamento(agendamentoId);
 
         if (agendamento.getStatus().equals(AgendamentoConstants.STATUS_CANCELADO)) {
-            throw new IllegalArgumentException("Não é possível concluir um agendamento cancelado.");
+            throw new ConclusaoInvalidaException("Não é possível concluir um agendamento cancelado.");
         }
 
         if (agendamento.getStatus().equals(AgendamentoConstants.STATUS_CONCLUIDO)) {
-            throw new IllegalArgumentException("Este agendamento já está concluído.");
+            throw new ConclusaoInvalidaException("Este agendamento já está concluído.");
         }
 
         agendamento.setStatus(AgendamentoConstants.STATUS_CONCLUIDO);
@@ -136,11 +146,11 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
         LocalTime FechamentoDaBarbearia = LocalTime.of(21, 0);
 
         if (horario.toLocalTime().isBefore(aberturaDaBarbearia) || horario.toLocalTime().isAfter(FechamentoDaBarbearia)) {
-            throw new IllegalArgumentException("Horário fora do expediente da barbearia (07:00–21:00).");
+            throw new AgendamentoInvalidoException("Horário fora do expediente da barbearia (07:00–21:00).");
         }
 
         if (horario.getMinute() % 30 != 0) {
-            throw new IllegalArgumentException("O horário deve ser em intervalos de 30 minutos.");
+            throw new AgendamentoInvalidoException("O horário deve ser em intervalos de 30 minutos.");
         }
     }
 }

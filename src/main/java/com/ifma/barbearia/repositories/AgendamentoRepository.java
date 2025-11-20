@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> {
 
-    boolean existsByBarbeiro_BarbeiroIdAndHorario(Long barbeiroId, LocalDateTime horario);
+    boolean existsByBarbeiro_BarbeiroIdAndHorarioAndStatus(Long barbeiroId, LocalDateTime horario, String status);
 
     List<Agendamento> findByCliente_ClienteId(Long clienteId);
 

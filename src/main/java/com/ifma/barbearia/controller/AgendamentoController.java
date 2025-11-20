@@ -55,10 +55,10 @@ public class AgendamentoController {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseDto(AgendamentoConstants.STATUS_417, AgendamentoConstants.MESSAGE_417_UPDATE));
     }
 
-    @DeleteMapping("/deletarAgendamento")
-    public ResponseEntity<ResponseDto> deletarAgendamento(@RequestParam Long agendamentoId) {
-        boolean deletado = iAgendamentoService.deletarAgendamento(agendamentoId);
-        if (deletado) {
+    @PatchMapping("/cancelarAgendamento")
+    public ResponseEntity<ResponseDto> cancelarAgendamento(@RequestParam Long agendamentoId) {
+        boolean cancelado = iAgendamentoService.cancelarAgendamento(agendamentoId);
+        if (cancelado) {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(AgendamentoConstants.STATUS_200, AgendamentoConstants.MESSAGE_200));
         } else {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseDto(AgendamentoConstants.STATUS_417, AgendamentoConstants.MESSAGE_417_DELETE));
