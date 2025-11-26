@@ -35,13 +35,13 @@ public class IHistoricoAtendimentoServiceImpl implements IHistoricoAtendimentoSe
     }
 
     @Override
-    public List<HistoricoAtendimento> listarPorCliente(Long clienteId) {
-        return historicoAtendimentoRepository.findByCliente_ClienteId(clienteId);
+    public List<HistoricoAtendimento> listarPorCliente(String clienteEmail) {
+        return historicoAtendimentoRepository.findByCliente_Email(clienteEmail);
     }
 
     @Override
-    public List<HistoricoAtendimento> listarPorBarbeiro(Long barbeiroId) {
-        return historicoAtendimentoRepository.findByBarbeiro_BarbeiroId(barbeiroId);
+    public List<HistoricoAtendimento> listarPorBarbeiro(String barbeiroEmail) {
+        return historicoAtendimentoRepository.findByBarbeiro_Email(barbeiroEmail);
     }
 
     @Override

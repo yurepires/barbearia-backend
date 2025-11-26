@@ -11,10 +11,10 @@ import java.util.List;
 public interface HistoricoAtendimentoRepository extends JpaRepository<HistoricoAtendimento, Long> {
 
     // histórico por cliente
-    List<HistoricoAtendimento> findByCliente_ClienteId(Long clienteId);
+    List<HistoricoAtendimento> findByCliente_Email(String email);
 
     // histórico por barbeiro
-    List<HistoricoAtendimento> findByBarbeiro_BarbeiroId(Long barbeiroId);
+    List<HistoricoAtendimento> findByBarbeiro_Email(String barbeiroEmail);
 
     List<HistoricoAtendimento> findByServico_ServicoId(Long servicoId);
 

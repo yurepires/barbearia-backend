@@ -26,15 +26,15 @@ public class HistoricoAtendimentoController {
     }
 
     @GetMapping("/listarPorCliente")
-    public List<HistoricoAtendimentoDto> historicoAtendimentoPorCliente(@RequestParam Long clienteId) {
-        return iHistoricoAtendimentoService.listarPorCliente(clienteId)
+    public List<HistoricoAtendimentoDto> historicoAtendimentoPorCliente(@RequestParam String clienteEmail) {
+        return iHistoricoAtendimentoService.listarPorCliente(clienteEmail)
                 .stream().map((HistoricoAtendimento historicoAtendimento) -> HistoricoAtendimentoMapper.mapToHistoricoAtendimentoDto(historicoAtendimento, new HistoricoAtendimentoDto()))
                 .toList();
     }
 
     @GetMapping("/listarPorBarbeiro")
-    public List<HistoricoAtendimentoDto> historicoAtendimentoPorBarbeiro(@RequestParam Long barbeiroId) {
-        return iHistoricoAtendimentoService.listarPorBarbeiro(barbeiroId)
+    public List<HistoricoAtendimentoDto> historicoAtendimentoPorBarbeiro(@RequestParam String barbeiroEmail) {
+        return iHistoricoAtendimentoService.listarPorBarbeiro(barbeiroEmail)
                 .stream().map((HistoricoAtendimento historicoAtendimento) -> HistoricoAtendimentoMapper.mapToHistoricoAtendimentoDto(historicoAtendimento, new HistoricoAtendimentoDto()))
                 .toList();
     }

@@ -12,9 +12,9 @@ public interface IHistoricoAtendimentoService {
 
     List<HistoricoAtendimento> listarTodos();
 
-    List<HistoricoAtendimento> listarPorCliente(Long clienteId);
+    List<HistoricoAtendimento> listarPorCliente(String clienteEmail);
 
-    List<HistoricoAtendimento> listarPorBarbeiro(Long barbeiroId);
+    List<HistoricoAtendimento> listarPorBarbeiro(String barbeiroEmail);
 
     List<HistoricoAtendimento> listarPorServico(Long servicoId);
 
