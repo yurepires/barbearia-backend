@@ -1,6 +1,7 @@
 package com.ifma.barbearia.services.implementation;
 
 import com.ifma.barbearia.DTOs.AgendamentoDto;
+import com.ifma.barbearia.DTOs.AgendamentoRequestDto;
 import com.ifma.barbearia.constants.AgendamentoConstants;
 import com.ifma.barbearia.entities.Agendamento;
 import com.ifma.barbearia.entities.Barbeiro;
@@ -32,18 +33,27 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
     private IHistoricoAtendimentoService iHistoricoAtendimentoService;
 
     @Override
-    public void criarAgendamento(AgendamentoDto agendamentoDto) {
-        Cliente cliente = verificarClienteId(agendamentoDto.getClienteId());
-        Servico servico = verificarServicoId(agendamentoDto.getServicoId());
-        Barbeiro barbeiro = verificarBarbeiroId(agendamentoDto.getBarbeiroId());
+    public void criarAgendamento(AgendamentoRequestDto agendamentoRequestDto) {
+        Cliente cliente = clienteRepository.findByEmail(agendamentoRequestDto.getClienteEmail()).orElseThrow(() -> new ResourceNotFoundException("Cliente", "email", agendamentoRequestDto.getClienteEmail()));
+        Servico servico = verificarServicoId(agendamentoRequestDto.getServicoId());
+        Barbeiro barbeiro = barbeiroRepository.findByEmail(agendamentoRequestDto.getBarbeiroEmail()).orElseThrow(() -> new ResourceNotFoundException("Barbeiro", "email", agendamentoRequestDto.getBarbeiroEmail()));
 
-        validarHorario(agendamentoDto.getHorario());
+        validarHorario(agendamentoRequestDto.getHorario());
 
-        boolean mesmoBarbeiroHorario = agendamentoRepository.existsByBarbeiro_BarbeiroIdAndHorarioAndStatus(agendamentoDto.getBarbeiroId(), agendamentoDto.getHorario(), AgendamentoConstants.STATUS_PENDENTE);
+        boolean mesmoBarbeiroHorario = agendamentoRepository.existsByBarbeiro_BarbeiroIdAndHorarioAndStatus(barbeiro.getBarbeiroId(), agendamentoRequestDto.getHorario(), AgendamentoConstants.STATUS_PENDENTE);
 
         if (mesmoBarbeiroHorario) {
             throw new HorarioIndisponivelException("Já existe um agendamento para este barbeiro neste horário.");
         }
+
+
+        AgendamentoDto agendamentoDto = new AgendamentoDto();
+        agendamentoDto.setId(agendamentoRequestDto.getId());
+        agendamentoDto.setHorario(agendamentoRequestDto.getHorario());
+        agendamentoDto.setStatus(agendamentoRequestDto.getStatus());
+        agendamentoDto.setClienteId(cliente.getClienteId());
+        agendamentoDto.setServicoId(servico.getServicoId());
+        agendamentoDto.setBarbeiroId(barbeiro.getBarbeiroId());
 
         Agendamento agendamento = AgendamentoMapper.mapToAgendamento(agendamentoDto, new Agendamento(), cliente, servico, barbeiro);
         agendamento.setStatus(AgendamentoConstants.STATUS_PENDENTE);
@@ -75,12 +85,20 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
     }
 
     @Override
-    public boolean atualizarAgendamento(AgendamentoDto agendamentoDto) {
-        Agendamento agendamento = verificarAgendamento(agendamentoDto.getId());
+    public boolean atualizarAgendamento(AgendamentoRequestDto agendamentoRequestDto) {
+        Agendamento agendamento = verificarAgendamento(agendamentoRequestDto.getId());
 
-        Cliente cliente = verificarClienteId(agendamentoDto.getClienteId());
-        Servico servico = verificarServicoId(agendamentoDto.getServicoId());
-        Barbeiro barbeiro = verificarBarbeiroId(agendamentoDto.getBarbeiroId());
+        Cliente cliente = clienteRepository.findByEmail(agendamentoRequestDto.getClienteEmail()).orElseThrow(() -> new ResourceNotFoundException("Cliente", "email", agendamentoRequestDto.getClienteEmail()));
+        Servico servico = verificarServicoId(agendamentoRequestDto.getServicoId());
+        Barbeiro barbeiro = barbeiroRepository.findByEmail(agendamentoRequestDto.getBarbeiroEmail()).orElseThrow(() -> new ResourceNotFoundException("Barbeiro", "email", agendamentoRequestDto.getBarbeiroEmail()));
+
+        AgendamentoDto agendamentoDto = new AgendamentoDto();
+        agendamentoDto.setId(agendamentoRequestDto.getId());
+        agendamentoDto.setHorario(agendamentoRequestDto.getHorario());
+        agendamentoDto.setStatus(agendamentoRequestDto.getStatus());
+        agendamentoDto.setClienteId(cliente.getClienteId());
+        agendamentoDto.setServicoId(servico.getServicoId());
+        agendamentoDto.setBarbeiroId(barbeiro.getBarbeiroId());
 
         AgendamentoMapper.mapToAgendamento(agendamentoDto, agendamento, cliente, servico, barbeiro);
         agendamentoRepository.save(agendamento);

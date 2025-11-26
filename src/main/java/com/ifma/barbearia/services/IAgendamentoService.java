@@ -1,12 +1,13 @@
 package com.ifma.barbearia.services;
 
 import com.ifma.barbearia.DTOs.AgendamentoDto;
+import com.ifma.barbearia.DTOs.AgendamentoRequestDto;
 
 import java.util.List;
 
 public interface IAgendamentoService {
 
-    void criarAgendamento(AgendamentoDto agendamentoDto);
+    void criarAgendamento(AgendamentoRequestDto agendamentoRequestDto);
 
     AgendamentoDto buscarAgendamento(Long agendamentoId);
 
@@ -14,7 +15,7 @@ public interface IAgendamentoService {
 
     List<AgendamentoDto> buscarAgendamentosPorCliente(Long clienteId);
 
-    boolean atualizarAgendamento(AgendamentoDto agendamentoDto);
+    boolean atualizarAgendamento(AgendamentoRequestDto agendamentoRequestDto);
 
     boolean cancelarAgendamento(Long agendamentoId);
 

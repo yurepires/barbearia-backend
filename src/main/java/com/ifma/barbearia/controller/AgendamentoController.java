@@ -1,6 +1,7 @@
 package com.ifma.barbearia.controller;
 
 import com.ifma.barbearia.DTOs.AgendamentoDto;
+import com.ifma.barbearia.DTOs.AgendamentoRequestDto;
 import com.ifma.barbearia.DTOs.ResponseDto;
 import com.ifma.barbearia.constants.AgendamentoConstants;
 import com.ifma.barbearia.services.IAgendamentoService;
@@ -23,8 +24,8 @@ public class AgendamentoController {
     private IAgendamentoService iAgendamentoService;
 
     @PostMapping("/criarAgendamento")
-    public ResponseEntity<ResponseDto> criarAgendamento(@Valid @RequestBody AgendamentoDto agendamentoDto) {
-        iAgendamentoService.criarAgendamento(agendamentoDto);
+    public ResponseEntity<ResponseDto> criarAgendamento(@Valid @RequestBody AgendamentoRequestDto agendamentoRequestDto) {
+        iAgendamentoService.criarAgendamento(agendamentoRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(AgendamentoConstants.STATUS_201, AgendamentoConstants.MESSAGE_201));
     }
 
@@ -47,8 +48,8 @@ public class AgendamentoController {
     }
 
     @PutMapping("/atualizarAgendamento")
-    public ResponseEntity<ResponseDto> atualizarAgendamento(@Valid @RequestBody AgendamentoDto agendamentoDto) {
-        boolean atualizado = iAgendamentoService.atualizarAgendamento(agendamentoDto);
+    public ResponseEntity<ResponseDto> atualizarAgendamento(@Valid @RequestBody AgendamentoRequestDto agendamentoRequestDto) {
+        boolean atualizado = iAgendamentoService.atualizarAgendamento(agendamentoRequestDto);
         if (atualizado)
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(AgendamentoConstants.STATUS_200, AgendamentoConstants.MESSAGE_200));
         else
