@@ -18,12 +18,12 @@ public class AgendamentoDto {
     private String status;
 
     @NotNull(message = "O cliente é obrigatório.")
-    private Long clienteId;
+    private String clienteEmail;
 
     @NotNull(message = "O serviço é obrigatório.")
     private Long servicoId;
 
     @NotNull(message = "O barbeiro é obrigatório.")
-    private Long barbeiroId;
+    private String barbeiroEmail;
 
 }
