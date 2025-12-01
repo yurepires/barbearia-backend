@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -43,6 +44,12 @@ public class AgendamentoController {
     @GetMapping("/buscarPorCliente")
     public ResponseEntity<List<AgendamentoDto>> buscarPorCliente(@RequestParam Long clienteId) {
         List<AgendamentoDto> agendamentoDtoList = iAgendamentoService.buscarAgendamentosPorCliente(clienteId);
+        return ResponseEntity.status(HttpStatus.OK).body(agendamentoDtoList);
+    }
+
+    @GetMapping("/buscarPorIntervaloDeDatas")
+    public ResponseEntity<List<AgendamentoDto>> buscarPorIntervaloDeDatas(@RequestParam LocalDate inicio, @RequestParam LocalDate fim) {
+        List<AgendamentoDto> agendamentoDtoList = iAgendamentoService.buscarAgendamentosPorIntervaloDeDatas(inicio, fim);
         return ResponseEntity.status(HttpStatus.OK).body(agendamentoDtoList);
     }
 

@@ -2,6 +2,7 @@ package com.ifma.barbearia.services;
 
 import com.ifma.barbearia.DTOs.AgendamentoDto;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface IAgendamentoService {
@@ -13,6 +14,8 @@ public interface IAgendamentoService {
     List<AgendamentoDto> buscarTodosAgendamentos();
 
     List<AgendamentoDto> buscarAgendamentosPorCliente(Long clienteId);
+
+    List<AgendamentoDto> buscarAgendamentosPorIntervaloDeDatas(LocalDate inicio, LocalDate fim);
 
     boolean atualizarAgendamento(AgendamentoDto agendamentoDto);
 

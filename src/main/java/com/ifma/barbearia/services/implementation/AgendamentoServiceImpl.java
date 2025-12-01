@@ -17,6 +17,7 @@ import com.ifma.barbearia.services.IHistoricoAtendimentoService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -71,6 +72,14 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
         List<Agendamento> agendamentos = agendamentoRepository.findByCliente_ClienteId(clienteId);
         return agendamentos.stream()
                 .map((Agendamento agendamento) -> AgendamentoMapper.mapToAgendamentoDto(agendamento, new AgendamentoDto()))
+                .toList();
+    }
+
+    @Override
+    public List<AgendamentoDto> buscarAgendamentosPorIntervaloDeDatas(LocalDate inicio, LocalDate fim) {
+        return agendamentoRepository.findByHorarioBetween(inicio.atStartOfDay(), fim.atTime(23,59,59))
+                .stream()
+                .map(agendamento -> AgendamentoMapper.mapToAgendamentoDto(agendamento, new AgendamentoDto()))
                 .toList();
     }
 
