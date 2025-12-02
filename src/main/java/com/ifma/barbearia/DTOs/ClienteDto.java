@@ -13,4 +13,6 @@ public class ClienteDto {
 
     private String telefone;
 
+    private String senha;
+
 }

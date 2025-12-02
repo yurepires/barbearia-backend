@@ -18,4 +18,6 @@ public class Cliente extends EntidadeBase {
 
     private String telefone;
 
+    private String senha;
+
 }
