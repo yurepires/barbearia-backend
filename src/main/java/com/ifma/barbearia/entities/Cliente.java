@@ -22,6 +22,7 @@ public class Cliente extends EntidadeBase {
 
     private String telefone;
 
+    private String senha;
     @OneToMany(mappedBy = "cliente")
     @JsonIgnore
     private Set<Agendamento> agendamentos = new HashSet<>();
@@ -29,5 +30,4 @@ public class Cliente extends EntidadeBase {
     @OneToMany(mappedBy = "cliente")
     @JsonIgnore
     private Set<HistoricoAtendimento> historico = new HashSet<>();
-
 }
