@@ -4,7 +4,10 @@ import com.ifma.barbearia.DTOs.ErrorResponseDto;
 import com.ifma.barbearia.DTOs.OtpRequestDto;
 import com.ifma.barbearia.DTOs.OtpValidateDto;
 import com.ifma.barbearia.DTOs.OtpResponseDto;
+import com.ifma.barbearia.DTOs.AuthRequest;
+import com.ifma.barbearia.DTOs.AuthResponse;
 import com.ifma.barbearia.services.IClienteOtpService;
+import com.ifma.barbearia.services.IClienteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -24,9 +27,11 @@ import org.springframework.web.bind.annotation.*;
 public class ClienteAuthController {
 
     private final IClienteOtpService clienteOtpService;
+    private final IClienteService clienteService;
 
-    public ClienteAuthController(IClienteOtpService clienteOtpService) {
+    public ClienteAuthController(IClienteOtpService clienteOtpService, IClienteService clienteService) {
         this.clienteOtpService = clienteOtpService;
+        this.clienteService = clienteService;
     }
 
     @Operation(
@@ -75,4 +80,9 @@ public class ClienteAuthController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/login-senha")
+    public ResponseEntity<AuthResponse> loginSenha(@RequestBody AuthRequest authRequest) {
+        AuthResponse response = clienteService.autenticarComSenha(authRequest);
+        return ResponseEntity.ok(response);
+    }
 }
