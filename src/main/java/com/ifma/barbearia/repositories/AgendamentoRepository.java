@@ -14,4 +14,6 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> 
 
     List<Agendamento> findByCliente_ClienteId(Long clienteId);
 
+    List<Agendamento> findByHorarioBetween(LocalDateTime inicio, LocalDateTime fim);
+
 }
