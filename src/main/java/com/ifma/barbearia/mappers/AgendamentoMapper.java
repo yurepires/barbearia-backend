@@ -12,9 +12,9 @@ public class AgendamentoMapper {
         agendamentoDto.setId(agendamento.getAgendamentoId());
         agendamentoDto.setHorario(agendamento.getHorario());
         agendamentoDto.setStatus(agendamento.getStatus());
-        agendamentoDto.setClienteId(agendamento.getCliente().getClienteId());
+        agendamentoDto.setClienteEmail(agendamento.getCliente().getEmail());
         agendamentoDto.setServicoId(agendamento.getServico().getServicoId());
-        agendamentoDto.setBarbeiroId(agendamento.getBarbeiro().getBarbeiroId());
+        agendamentoDto.setBarbeiroEmail(agendamento.getBarbeiro().getEmail());
         return agendamentoDto;
     }
 
