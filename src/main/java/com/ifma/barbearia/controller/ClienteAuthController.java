@@ -80,6 +80,23 @@ public class ClienteAuthController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(
+            summary = "Login com senha",
+            description = "REST API para logar com email e senha"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    })
     @PostMapping("/login-senha")
     public ResponseEntity<AuthResponse> loginSenha(@RequestBody AuthRequest authRequest) {
         AuthResponse response = clienteService.autenticarComSenha(authRequest);

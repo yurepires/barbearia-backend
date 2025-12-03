@@ -27,6 +27,9 @@ public class ClienteDto {
     )
     private String telefone;
 
+    @Schema(
+            description = "Senha do cliente", example = "minhasenha"
+    )
     private String senha;
 
 }
