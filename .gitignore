@@ -32,3 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 testes.txt
+
+### Outros ###
+./src/main/resources/data.sql
