@@ -1,0 +1,24 @@
+package com.ifma.barbearia.services.implementation;
+
+import com.ifma.barbearia.DTOs.DespesaDto;
+import com.ifma.barbearia.entities.Despesa;
+import com.ifma.barbearia.mappers.DespesaMapper;
+import com.ifma.barbearia.repositories.DespesaRepository;
+import com.ifma.barbearia.services.IDespesaService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@AllArgsConstructor
+public class DespesaServiceImpl implements IDespesaService {
+
+    private DespesaRepository despesaRepository;
+
+    @Override
+    public void criarDespesa(DespesaDto despesaDto) {
+        Despesa despesa = new Despesa();
+        DespesaMapper.mapToEntity(despesaDto, despesa);
+        despesaRepository.save(despesa);
+    }
+
+}
