@@ -19,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Tag(
         name = "Despesas REST API",
         description = "REST APIs para registrar despesas da barbearia"
@@ -59,6 +61,29 @@ public class DespesaController {
     public ResponseEntity<ResponseDto> registrarDespesa(@Valid @RequestBody DespesaDto despesaDto) {
         iDespesaService.criarDespesa(despesaDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(DespesaConstants.STATUS_201, DespesaConstants.MESSAGE_201));
+    }
+
+    @Operation(
+            summary = "Listar Todas Despesas",
+            description = "REST API para listar todas as despesas registradas"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK - Lista de despesas retornada com sucesso"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    })
+    @GetMapping
+    public ResponseEntity<List<DespesaDto>> listarTodasDespesas() {
+        List<DespesaDto> despesas = iDespesaService.buscarTodasDespesas();
+        return ResponseEntity.status(HttpStatus.OK).body(despesas);
     }
 
 }
