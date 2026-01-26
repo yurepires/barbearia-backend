@@ -105,6 +105,27 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(PagamentoJaExisteException.class)
+    public ResponseEntity<ErrorResponseDto> handlePagamentoJaExisteException(PagamentoJaExisteException exception, WebRequest webRequest) {
+        ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
+                webRequest.getDescription(false),
+                HttpStatus.BAD_REQUEST,
+                exception.getMessage(),
+                LocalDateTime.now());
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AgendamentoNaoConcluidoException.class)
+    public ResponseEntity<ErrorResponseDto> handleAgendamentoNaoConcluidoException(AgendamentoNaoConcluidoException exception, WebRequest webRequest) {
+        ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
+                webRequest.getDescription(false),
+                HttpStatus.BAD_REQUEST,
+                exception.getMessage(),
+                LocalDateTime.now());
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
+    }
+
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDto> handleGlobalException(Exception exception, WebRequest webRequest) {
         ErrorResponseDto errorResponseDTO = new ErrorResponseDto(

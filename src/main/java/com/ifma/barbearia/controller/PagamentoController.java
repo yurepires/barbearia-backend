@@ -1,0 +1,124 @@
+package com.ifma.barbearia.controller;
+
+import com.ifma.barbearia.DTOs.ErrorResponseDto;
+import com.ifma.barbearia.DTOs.PagamentoDto;
+import com.ifma.barbearia.DTOs.ResponseDto;
+import com.ifma.barbearia.constants.PagamentoConstants;
+import com.ifma.barbearia.services.IPagamentoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+@Tag(
+        name = "Pagamentos REST API",
+        description = "REST APIs para registrar e buscar pagamentos de agendamentos"
+)
+@RestController
+@RequestMapping(path = "/api/pagamentos", produces = MediaType.APPLICATION_JSON_VALUE)
+@AllArgsConstructor
+@Validated
+public class PagamentoController {
+
+    private IPagamentoService iPagamentoService;
+
+    @Operation(
+            summary = "Registrar Pagamento",
+            description = "REST API para registrar um pagamento de um agendamento"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "HTTP Status CREATED"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad Request - Validação falhou",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    })
+    @PostMapping("/registrar")
+    public ResponseEntity<ResponseDto> registrarPagamento(@Valid @RequestBody PagamentoDto pagamentoDto) {
+        iPagamentoService.criarPagamento(pagamentoDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(PagamentoConstants.STATUS_201, PagamentoConstants.MESSAGE_201));
+    }
+
+    @Operation(
+            summary = "Buscar Pagamento",
+            description = "REST API para buscar detalhes de um pagamento pelo ID"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Pagamento não encontrado",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    })
+    @GetMapping("/{pagamentoId}")
+    public ResponseEntity<PagamentoDto> buscarPagamento(@PathVariable Long pagamentoId) {
+        PagamentoDto pagamentoDto = iPagamentoService.buscarPagamento(pagamentoId);
+        return ResponseEntity.status(HttpStatus.OK).body(pagamentoDto);
+    }
+
+    @Operation(
+            summary = "Buscar Pagamento por Agendamento",
+            description = "REST API para buscar um pagamento pelo ID do agendamento"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Pagamento não encontrado para o agendamento",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    })
+    @GetMapping("/agendamento/{agendamentoId}")
+    public ResponseEntity<PagamentoDto> buscarPagamentoPorAgendamento(@PathVariable Long agendamentoId) {
+        PagamentoDto pagamentoDto = iPagamentoService.buscarPagamentoPorAgendamento(agendamentoId);
+        return ResponseEntity.status(HttpStatus.OK).body(pagamentoDto);
+    }
+
+}
