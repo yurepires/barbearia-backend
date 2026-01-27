@@ -24,7 +24,6 @@ public class Pagamento extends EntidadeBase {
     private String formaPagamento;
 
     @Column(nullable = false)
-    private String status;
 
     private LocalDateTime dataPagamento;
 

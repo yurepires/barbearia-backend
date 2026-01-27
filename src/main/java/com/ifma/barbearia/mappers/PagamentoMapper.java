@@ -10,7 +10,6 @@ public class PagamentoMapper {
         pagamentoDto.setAgendamentoId(pagamento.getAgendamento().getAgendamentoId());
         pagamentoDto.setValor(pagamento.getValor());
         pagamentoDto.setFormaPagamento(pagamento.getFormaPagamento());
-        pagamentoDto.setStatus(pagamento.getStatus());
         pagamentoDto.setDataPagamento(pagamento.getDataPagamento());
         return pagamentoDto;
     }
@@ -19,7 +18,6 @@ public class PagamentoMapper {
         pagamento.setPagamentoId(pagamentoDto.getPagamentoId());
         pagamento.setValor(pagamentoDto.getValor());
         pagamento.setFormaPagamento(pagamentoDto.getFormaPagamento());
-        pagamento.setStatus(pagamentoDto.getStatus());
         pagamento.setDataPagamento(pagamentoDto.getDataPagamento());
         return pagamento;
     }

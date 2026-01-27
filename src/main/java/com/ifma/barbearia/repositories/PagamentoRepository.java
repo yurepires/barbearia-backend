@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,7 +15,7 @@ public interface PagamentoRepository extends JpaRepository<Pagamento, Long> {
 
     Optional<Pagamento> findByAgendamento_AgendamentoId(Long agendamentoId);
 
-    @Query("SELECT COALESCE(SUM(p.valor), 0.0) FROM Pagamento p WHERE p.dataPagamento BETWEEN :inicio AND :fim AND p.status = :status")
-    Double sumValorByDataPagamentoBetweenAndStatus(@Param("inicio") LocalDateTime inicio, @Param("fim") LocalDateTime fim, @Param("status") String status);
+    @Query("SELECT COALESCE(SUM(p.valor), 0.0) FROM Pagamento p WHERE p.dataPagamento BETWEEN :inicio AND :fim")
+    Double sumValorByDataPagamentoBetween(@Param("inicio") LocalDateTime inicio, @Param("fim") LocalDateTime fim);
 
 }

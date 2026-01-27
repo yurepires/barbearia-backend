@@ -9,7 +9,8 @@ public class HistoricoAtendimentoMapper {
 
         historicoAtendimentoDto.setId(historicoAtendimento.getHistoricoAtendimentoId());
         historicoAtendimentoDto.setDataAtendimento(historicoAtendimento.getData());
-        historicoAtendimentoDto.setValorPago(historicoAtendimento.getValorPago());
+        historicoAtendimentoDto.setValorPago(historicoAtendimento.getPagamento().getValor());
+        historicoAtendimentoDto.setFormaPagamento(historicoAtendimento.getPagamento().getFormaPagamento());
         historicoAtendimentoDto.setNomeCliente(historicoAtendimento.getCliente().getNome());
         historicoAtendimentoDto.setNomeBarbeiro(historicoAtendimento.getBarbeiro().getNome());
         historicoAtendimentoDto.setNomeServico(historicoAtendimento.getServico().getNome());

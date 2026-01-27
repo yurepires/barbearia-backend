@@ -1,7 +1,6 @@
 package com.ifma.barbearia.services.implementation;
 
 import com.ifma.barbearia.DTOs.ResumoFinanceiroDto;
-import com.ifma.barbearia.constants.FinanceiroConstants;
 import com.ifma.barbearia.repositories.DespesaRepository;
 import com.ifma.barbearia.repositories.PagamentoRepository;
 import com.ifma.barbearia.services.IFinanceiroService;
@@ -25,11 +24,10 @@ public class FinanceiroServiceImpl implements IFinanceiroService {
         LocalDateTime inicioDateTime = inicio.atStartOfDay(); // 00:00:00
         LocalDateTime fimDateTime = fim.atTime(LocalTime.MAX); // 23:59:59.999999999
 
-        // Buscar soma de pagamentos confirmados no período
-        Double totalEntradas = pagamentoRepository.sumValorByDataPagamentoBetweenAndStatus(
-                inicioDateTime, 
-                fimDateTime, 
-                FinanceiroConstants.PAGAMENTO_CONFIRMADO
+        // Buscar soma de pagamentos no período
+        Double totalEntradas = pagamentoRepository.sumValorByDataPagamentoBetween(
+                inicioDateTime,
+                fimDateTime
         );
 
         // Buscar soma de despesas no período

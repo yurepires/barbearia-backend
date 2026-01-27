@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -212,7 +214,7 @@ public class AgendamentoController {
 
     @Operation(
             summary = "Concluir agendamento",
-            description = "REST API para cancelar um agendamento pelo ID fornecido"
+            description = "REST API para concluir um agendamento, registrando o pagamento e histórico de atendimento"
     )
     @ApiResponses({
             @ApiResponse(
@@ -232,8 +234,10 @@ public class AgendamentoController {
             )
     })
     @PatchMapping("/concluirAgendamento")
-    public ResponseEntity<ResponseDto> concluirAgendamento(@RequestParam Long agendamentoId) {
-        iAgendamentoService.concluirAgendamento(agendamentoId);
+    public ResponseEntity<ResponseDto> concluirAgendamento(
+            @RequestParam @NotNull(message = "ID do agendamento não pode ser nulo") Long agendamentoId,
+            @RequestParam @NotEmpty(message = "Forma de pagamento não pode ser vazia") String formaPagamento) {
+        iAgendamentoService.concluirAgendamento(agendamentoId, formaPagamento);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(AgendamentoConstants.STATUS_200, AgendamentoConstants.MESSAGE_200));
     }
 

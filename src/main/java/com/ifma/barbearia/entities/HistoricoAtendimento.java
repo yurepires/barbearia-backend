@@ -13,8 +13,12 @@ public class HistoricoAtendimento extends EntidadeBase{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long historicoAtendimentoId;
 
+    @Column(nullable = false)
     private LocalDateTime data;
-    private Double valorPago;
+
+    @OneToOne
+    @JoinColumn(name = "pagamento_id", nullable = false)
+    private Pagamento pagamento;
 
     @ManyToOne
     @JoinColumn(name = "barbeiro_id", nullable = false)

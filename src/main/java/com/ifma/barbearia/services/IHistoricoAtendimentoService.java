@@ -2,13 +2,14 @@ package com.ifma.barbearia.services;
 
 import com.ifma.barbearia.entities.Agendamento;
 import com.ifma.barbearia.entities.HistoricoAtendimento;
+import com.ifma.barbearia.entities.Pagamento;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public interface IHistoricoAtendimentoService {
 
-    void registrar(Agendamento agendamento, Double valorPago);
+    void registrar(Agendamento agendamento, Pagamento pagamento);
 
     List<HistoricoAtendimento> listarTodos();
 

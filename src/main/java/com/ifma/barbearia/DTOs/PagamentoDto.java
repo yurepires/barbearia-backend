@@ -39,12 +39,7 @@ public class PagamentoDto {
     )
     private String formaPagamento;
 
-    @NotEmpty(message = "Status do pagamento não pode ser vazio")
-    @Schema(
-            description = "Status do pagamento: PENDENTE, CONFIRMADO, CANCELADO"
-    )
-    private String status;
-
+    @NotNull(message = "Data do pagamento não pode ser nula")
     @Schema(
             description = "Data e hora do pagamento"
     )

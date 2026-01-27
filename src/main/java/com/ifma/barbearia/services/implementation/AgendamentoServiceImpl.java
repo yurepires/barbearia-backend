@@ -2,20 +2,15 @@ package com.ifma.barbearia.services.implementation;
 
 import com.ifma.barbearia.DTOs.AgendamentoDto;
 import com.ifma.barbearia.constants.AgendamentoConstants;
-import com.ifma.barbearia.entities.Agendamento;
-import com.ifma.barbearia.entities.Barbeiro;
-import com.ifma.barbearia.entities.Cliente;
-import com.ifma.barbearia.entities.Servico;
+import com.ifma.barbearia.entities.*;
 import com.ifma.barbearia.exceptions.*;
 import com.ifma.barbearia.mappers.AgendamentoMapper;
-import com.ifma.barbearia.repositories.AgendamentoRepository;
-import com.ifma.barbearia.repositories.BarbeiroRepository;
-import com.ifma.barbearia.repositories.ClienteRepository;
-import com.ifma.barbearia.repositories.ServicoRepository;
+import com.ifma.barbearia.repositories.*;
 import com.ifma.barbearia.services.IAgendamentoService;
 import com.ifma.barbearia.services.IHistoricoAtendimentoService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,6 +25,7 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
     private ClienteRepository clienteRepository;
     private ServicoRepository servicoRepository;
     private BarbeiroRepository barbeiroRepository;
+    private PagamentoRepository pagamentoRepository;
     private IHistoricoAtendimentoService iHistoricoAtendimentoService;
 
     @Override
@@ -114,7 +110,8 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
     }
 
     @Override
-    public void concluirAgendamento(Long agendamentoId) {
+    @Transactional
+    public void concluirAgendamento(Long agendamentoId, String formaPagamento) {
         Agendamento agendamento = verificarAgendamento(agendamentoId);
 
         if (agendamento.getStatus().equals(AgendamentoConstants.STATUS_CANCELADO)) {
@@ -125,10 +122,19 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
             throw new ConclusaoInvalidaException("Este agendamento já está concluído.");
         }
 
+        Double valorServico = agendamento.getServico().getPreco();
+
         agendamento.setStatus(AgendamentoConstants.STATUS_CONCLUIDO);
+        agendamentoRepository.save(agendamento);
 
-        iHistoricoAtendimentoService.registrar(agendamento, agendamento.getServico().getPreco());
+        Pagamento pagamento = new Pagamento();
+        pagamento.setAgendamento(agendamento);
+        pagamento.setValor(valorServico);
+        pagamento.setFormaPagamento(formaPagamento);
+        pagamento.setDataPagamento(LocalDateTime.now());
+        pagamentoRepository.save(pagamento);
 
+        iHistoricoAtendimentoService.registrar(agendamento, pagamento);
     }
 
 

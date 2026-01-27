@@ -28,6 +28,11 @@ public class HistoricoAtendimentoDto {
     private Double valorPago;
 
     @Schema(
+            description = "Forma de pagamento utilizada", example = "PIX"
+    )
+    private String formaPagamento;
+
+    @Schema(
             description = "Nome do cliente", example = "João Maria"
     )
     private String nomeCliente;

@@ -21,6 +21,6 @@ public interface IAgendamentoService {
 
     boolean cancelarAgendamento(Long agendamentoId);
 
-    void concluirAgendamento(Long agendamentoId);
+    void concluirAgendamento(Long agendamentoId, String formaPagamento);
 
 }

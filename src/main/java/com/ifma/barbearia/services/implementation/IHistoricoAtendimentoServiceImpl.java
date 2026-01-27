@@ -2,6 +2,7 @@ package com.ifma.barbearia.services.implementation;
 
 import com.ifma.barbearia.entities.Agendamento;
 import com.ifma.barbearia.entities.HistoricoAtendimento;
+import com.ifma.barbearia.entities.Pagamento;
 import com.ifma.barbearia.repositories.HistoricoAtendimentoRepository;
 import com.ifma.barbearia.services.IHistoricoAtendimentoService;
 import lombok.AllArgsConstructor;
@@ -18,10 +19,10 @@ public class IHistoricoAtendimentoServiceImpl implements IHistoricoAtendimentoSe
     private HistoricoAtendimentoRepository historicoAtendimentoRepository;
 
     @Override
-    public void registrar(Agendamento agendamento, Double valorPago) {
+    public void registrar(Agendamento agendamento, Pagamento pagamento) {
         HistoricoAtendimento historicoAtendimento = new HistoricoAtendimento();
         historicoAtendimento.setData(LocalDateTime.now());
-        historicoAtendimento.setValorPago(valorPago);
+        historicoAtendimento.setPagamento(pagamento);
         historicoAtendimento.setCliente(agendamento.getCliente());
         historicoAtendimento.setBarbeiro(agendamento.getBarbeiro());
         historicoAtendimento.setServico(agendamento.getServico());
