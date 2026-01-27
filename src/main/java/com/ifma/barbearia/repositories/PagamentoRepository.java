@@ -18,4 +18,6 @@ public interface PagamentoRepository extends JpaRepository<Pagamento, Long> {
     @Query("SELECT COALESCE(SUM(p.valor), 0.0) FROM Pagamento p WHERE p.dataPagamento BETWEEN :inicio AND :fim")
     Double sumValorByDataPagamentoBetween(@Param("inicio") LocalDateTime inicio, @Param("fim") LocalDateTime fim);
 
+    List<Pagamento> findByDataPagamentoBetween(LocalDateTime inicio, LocalDateTime fim);
+
 }

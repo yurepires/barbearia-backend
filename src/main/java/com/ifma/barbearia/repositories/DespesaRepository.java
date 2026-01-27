@@ -7,11 +7,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 public interface DespesaRepository extends JpaRepository<Despesa, Long> {
 
     @Query("SELECT COALESCE(SUM(d.valor), 0.0) FROM Despesa d WHERE d.dataDespesa BETWEEN :inicio AND :fim")
     Double sumValorByDataDespesaBetween(@Param("inicio") LocalDate inicio, @Param("fim") LocalDate fim);
+
+    List<Despesa> findByDataDespesaBetween(LocalDate inicio, LocalDate fim);
 
 }

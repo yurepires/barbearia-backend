@@ -38,11 +38,53 @@ VALUES ('Hidratação', 'Hidratação capilar profunda', 20.00, CURRENT_TIMESTAM
 
 
 -- Inserindo Agendamentos
-INSERT INTO agendamento (horario, status, cliente_id, servico_id, barbeiro_id, created_at, created_by)
-VALUES ('2025-11-28 10:00:00', 'PENDENTE', 1, 1, 1, CURRENT_TIMESTAMP, 'SYSTEM');
+INSERT INTO agendamento (agendamento_id, horario, status, cliente_id, servico_id, barbeiro_id, created_at, created_by)
+VALUES (1, '2025-11-28 10:00:00', 'CONCLUIDO', 1, 1, 1, CURRENT_TIMESTAMP, 'SYSTEM');
 
-INSERT INTO agendamento (horario, status, cliente_id, servico_id, barbeiro_id, created_at, created_by)
-VALUES ('2025-11-29 11:00:00', 'PENDENTE', 2, 3, 2, CURRENT_TIMESTAMP, 'SYSTEM');
+INSERT INTO agendamento (agendamento_id, horario, status, cliente_id, servico_id, barbeiro_id, created_at, created_by)
+VALUES (2, '2025-11-29 11:00:00', 'CONCLUIDO', 2, 3, 2, CURRENT_TIMESTAMP, 'SYSTEM');
 
-INSERT INTO agendamento (horario, status, cliente_id, servico_id, barbeiro_id, created_at, created_by)
-VALUES ('2025-12-02 14:00:00', 'PENDENTE', 3, 2, 1, CURRENT_TIMESTAMP, 'SYSTEM');
+INSERT INTO agendamento (agendamento_id, horario, status, cliente_id, servico_id, barbeiro_id, created_at, created_by)
+VALUES (3, '2025-12-02 14:00:00', 'CONCLUIDO', 3, 2, 1, CURRENT_TIMESTAMP, 'SYSTEM');
+
+INSERT INTO agendamento (agendamento_id, horario, status, cliente_id, servico_id, barbeiro_id, created_at, created_by)
+VALUES (4, '2025-12-03 16:00:00', 'CONCLUIDO', 2, 2, 2, CURRENT_TIMESTAMP, 'SYSTEM');
+
+
+-- Inserindo Pagamentos
+INSERT INTO pagamento (pagamento_id, agendamento_id, valor, forma_pagamento, data_pagamento, created_at, created_by)
+VALUES (1, 1, 35.0, 'CARTAO_DEBITO', '2025-11-28 10:30:00', CURRENT_TIMESTAMP, 'SYSTEM');
+
+INSERT INTO pagamento (pagamento_id, agendamento_id, valor, forma_pagamento, data_pagamento, created_at, created_by)
+VALUES (2, 2, 50.0, 'PIX', '2025-11-29 11:30:00', CURRENT_TIMESTAMP, 'SYSTEM');
+
+INSERT INTO pagamento (pagamento_id, agendamento_id, valor, forma_pagamento, data_pagamento, created_at, created_by)
+VALUES (3, 3, 25.0, 'DINHEIRO', '2025-12-02 14:30:00', CURRENT_TIMESTAMP, 'SYSTEM');
+
+INSERT INTO pagamento (pagamento_id, agendamento_id, valor, forma_pagamento, data_pagamento, created_at, created_by)
+VALUES (4, 4, 25.0, 'CARTAO_CREDITO', '2025-12-03 16:00:00', CURRENT_TIMESTAMP, 'SYSTEM');
+
+
+-- Inserindo Histórico de Atendimentos
+INSERT INTO historico_atendimento (historico_atendimento_id, data, pagamento_id, cliente_id, servico_id, barbeiro_id, created_at, created_by)
+VALUES (1, '2025-11-28 10:30:00', 1, 1, 1, 1, CURRENT_TIMESTAMP, 'SYSTEM');
+
+INSERT INTO historico_atendimento (historico_atendimento_id, data, pagamento_id, cliente_id, servico_id, barbeiro_id, created_at, created_by)
+VALUES (2, '2025-11-29 11:30:00', 2, 2, 3, 2, CURRENT_TIMESTAMP, 'SYSTEM');
+
+INSERT INTO historico_atendimento (historico_atendimento_id, data, pagamento_id, cliente_id, servico_id, barbeiro_id, created_at, created_by)
+VALUES (3, '2025-12-02 14:30:00', 3, 3, 2, 1, CURRENT_TIMESTAMP, 'SYSTEM');
+
+INSERT INTO historico_atendimento (historico_atendimento_id, data, pagamento_id, cliente_id, servico_id, barbeiro_id, created_at, created_by)
+VALUES (4, '2025-12-03 16:00:00', 4, 2, 2, 2, CURRENT_TIMESTAMP, 'SYSTEM');
+
+
+-- Inserindo Despesas
+INSERT INTO despesa (despesa_id, data_despesa, descricao, valor, created_at, created_by)
+VALUES (1, '2025-12-03', 'Conta de luz', 325.99, CURRENT_TIMESTAMP, 'SYSTEM');
+
+INSERT INTO despesa (despesa_id, data_despesa, descricao, valor, created_at, created_by)
+VALUES (2, '2025-11-30', 'Conta de água', 86.52, CURRENT_TIMESTAMP, 'SYSTEM');
+
+INSERT INTO despesa (despesa_id, data_despesa, descricao, valor, created_at, created_by)
+VALUES (3, '2025-12-01', 'Aluguel', 600.00, CURRENT_TIMESTAMP, 'SYSTEM');
