@@ -1,10 +1,11 @@
 package com.ifma.barbearia.controller;
 
-import com.ifma.barbearia.DTOs.AgendamentoDto;
-import com.ifma.barbearia.DTOs.ErrorResponseDto;
-import com.ifma.barbearia.DTOs.ResponseDto;
+import com.ifma.barbearia.dto.AgendamentoDto;
+import com.ifma.barbearia.dto.ErrorResponseDto;
+import com.ifma.barbearia.dto.ResponseDto;
 import com.ifma.barbearia.constants.AgendamentoConstants;
-import com.ifma.barbearia.services.IAgendamentoService;
+import com.ifma.barbearia.constants.CommonConstants;
+import com.ifma.barbearia.service.IAgendamentoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -34,7 +35,7 @@ import java.util.List;
 @Validated
 public class AgendamentoController {
 
-    private IAgendamentoService iAgendamentoService;
+    private IAgendamentoService agendamentoService;
 
     @Operation(
             summary = "Criar Agendamento",
@@ -55,8 +56,9 @@ public class AgendamentoController {
     })
     @PostMapping("/criarAgendamento")
     public ResponseEntity<ResponseDto> criarAgendamento(@Valid @RequestBody AgendamentoDto agendamentoDto) {
-        iAgendamentoService.criarAgendamento(agendamentoDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(AgendamentoConstants.STATUS_201, AgendamentoConstants.MESSAGE_201));
+        agendamentoService.criarAgendamento(agendamentoDto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new ResponseDto(CommonConstants.STATUS_201, AgendamentoConstants.MESSAGE_201));
     }
 
     @Operation(
@@ -78,7 +80,7 @@ public class AgendamentoController {
     })
     @GetMapping("/buscarAgendamento")
     public ResponseEntity<AgendamentoDto> buscarAgendamento(@RequestParam Long agendamentoId) {
-        AgendamentoDto agendamentoDto = iAgendamentoService.buscarAgendamento(agendamentoId);
+        AgendamentoDto agendamentoDto = agendamentoService.buscarAgendamento(agendamentoId);
         return ResponseEntity.status(HttpStatus.OK).body(agendamentoDto);
     }
 
@@ -101,7 +103,7 @@ public class AgendamentoController {
     })
     @GetMapping("buscarTodosAgendamentos")
     public ResponseEntity<List<AgendamentoDto>> buscarTodosAgendamentos() {
-        List<AgendamentoDto> agendamentoDtoList = iAgendamentoService.buscarTodosAgendamentos();
+        List<AgendamentoDto> agendamentoDtoList = agendamentoService.buscarTodosAgendamentos();
         return ResponseEntity.status(HttpStatus.OK).body(agendamentoDtoList);
     }
 
@@ -123,8 +125,8 @@ public class AgendamentoController {
             )
     })
     @GetMapping("/buscarPorCliente")
-    public ResponseEntity<List<AgendamentoDto>> buscarPorCliente(@RequestParam Long clienteId) {
-        List<AgendamentoDto> agendamentoDtoList = iAgendamentoService.buscarAgendamentosPorCliente(clienteId);
+    public ResponseEntity<List<AgendamentoDto>> buscarPorCliente(@RequestParam String clienteEmail) {
+        List<AgendamentoDto> agendamentoDtoList = agendamentoService.buscarAgendamentosPorCliente(clienteEmail);
         return ResponseEntity.status(HttpStatus.OK).body(agendamentoDtoList);
     }
 
@@ -147,7 +149,7 @@ public class AgendamentoController {
     })
     @GetMapping("/buscarPorIntervaloDeDatas")
     public ResponseEntity<List<AgendamentoDto>> buscarPorIntervaloDeDatas(@RequestParam LocalDate inicio, @RequestParam LocalDate fim) {
-        List<AgendamentoDto> agendamentoDtoList = iAgendamentoService.buscarAgendamentosPorIntervaloDeDatas(inicio, fim);
+        List<AgendamentoDto> agendamentoDtoList = agendamentoService.buscarAgendamentosPorIntervaloDeDatas(inicio, fim);
         return ResponseEntity.status(HttpStatus.OK).body(agendamentoDtoList);
     }
 
@@ -174,11 +176,13 @@ public class AgendamentoController {
     })
     @PutMapping("/atualizarAgendamento")
     public ResponseEntity<ResponseDto> atualizarAgendamento(@Valid @RequestBody AgendamentoDto agendamentoDto) {
-        boolean atualizado = iAgendamentoService.atualizarAgendamento(agendamentoDto);
+        boolean atualizado = agendamentoService.atualizarAgendamento(agendamentoDto);
         if (atualizado)
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(AgendamentoConstants.STATUS_200, AgendamentoConstants.MESSAGE_200));
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseDto(CommonConstants.STATUS_200, CommonConstants.MESSAGE_200));
         else
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseDto(AgendamentoConstants.STATUS_417, AgendamentoConstants.MESSAGE_417_UPDATE));
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseDto(
+                    CommonConstants.STATUS_417, CommonConstants.MESSAGE_417_UPDATE));
     }
 
     @Operation(
@@ -204,11 +208,13 @@ public class AgendamentoController {
     })
     @PatchMapping("/cancelarAgendamento")
     public ResponseEntity<ResponseDto> cancelarAgendamento(@RequestParam Long agendamentoId) {
-        boolean cancelado = iAgendamentoService.cancelarAgendamento(agendamentoId);
+        boolean cancelado = agendamentoService.cancelarAgendamento(agendamentoId);
         if (cancelado) {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(AgendamentoConstants.STATUS_200, AgendamentoConstants.MESSAGE_200));
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseDto(CommonConstants.STATUS_200, CommonConstants.MESSAGE_200));
         } else {
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseDto(AgendamentoConstants.STATUS_417, AgendamentoConstants.MESSAGE_417_DELETE));
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseDto(
+                    CommonConstants.STATUS_417, CommonConstants.MESSAGE_417_DELETE));
         }
     }
 
@@ -237,8 +243,9 @@ public class AgendamentoController {
     public ResponseEntity<ResponseDto> concluirAgendamento(
             @RequestParam @NotNull(message = "ID do agendamento não pode ser nulo") Long agendamentoId,
             @RequestParam @NotEmpty(message = "Forma de pagamento não pode ser vazia") String formaPagamento) {
-        iAgendamentoService.concluirAgendamento(agendamentoId, formaPagamento);
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto(AgendamentoConstants.STATUS_200, AgendamentoConstants.MESSAGE_200));
+        agendamentoService.concluirAgendamento(agendamentoId, formaPagamento);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDto(CommonConstants.STATUS_200, CommonConstants.MESSAGE_200));
     }
 
 }

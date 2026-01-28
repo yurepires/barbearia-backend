@@ -1,7 +1,7 @@
 package com.ifma.barbearia.config;
 
-import com.ifma.barbearia.entities.AdmUser;
-import com.ifma.barbearia.repositories.AdmUserRepository;
+import com.ifma.barbearia.entity.AdmUser;
+import com.ifma.barbearia.repository.AdmUserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

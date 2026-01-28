@@ -1,10 +1,11 @@
 package com.ifma.barbearia.controller;
 
-import com.ifma.barbearia.DTOs.BarbeiroDto;
-import com.ifma.barbearia.DTOs.ErrorResponseDto;
-import com.ifma.barbearia.DTOs.ResponseDto;
+import com.ifma.barbearia.dto.BarbeiroDto;
+import com.ifma.barbearia.dto.ErrorResponseDto;
+import com.ifma.barbearia.dto.ResponseDto;
 import com.ifma.barbearia.constants.BarbeiroConstants;
-import com.ifma.barbearia.services.IBarbeiroService;
+import com.ifma.barbearia.constants.CommonConstants;
+import com.ifma.barbearia.service.IBarbeiroService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -56,7 +57,7 @@ public class BarbeiroController {
         iBarbeiroService.criarBarbeiro(barbeiroDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(new ResponseDto(BarbeiroConstants.STATUS_201, BarbeiroConstants.MESSAGE_201));
+                .body(new ResponseDto(CommonConstants.STATUS_201, BarbeiroConstants.MESSAGE_201));
     }
 
     @Operation(
@@ -133,11 +134,12 @@ public class BarbeiroController {
         if (atualizado) {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(new ResponseDto(BarbeiroConstants.STATUS_200, BarbeiroConstants.MESSAGE_200));
+                    .body(new ResponseDto(CommonConstants.STATUS_200, CommonConstants.MESSAGE_200));
         } else {
             return ResponseEntity
                     .status(HttpStatus.EXPECTATION_FAILED)
-                    .body(new ResponseDto(BarbeiroConstants.STATUS_417, BarbeiroConstants.MESSAGE_417_UPDATE));
+                    .body(new ResponseDto(CommonConstants.STATUS_417,
+                            CommonConstants.MESSAGE_417_UPDATE));
         }
     }
 
@@ -169,11 +171,12 @@ public class BarbeiroController {
         if (deletado) {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(new ResponseDto(BarbeiroConstants.STATUS_200, BarbeiroConstants.MESSAGE_200));
+                    .body(new ResponseDto(CommonConstants.STATUS_200, CommonConstants.MESSAGE_200));
         } else {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(new ResponseDto(BarbeiroConstants.STATUS_417, BarbeiroConstants.MESSAGE_417_DELETE));
+                    .body(new ResponseDto(CommonConstants.STATUS_417,
+                            CommonConstants.MESSAGE_417_DELETE));
         }
     }
 

@@ -1,11 +1,12 @@
 package com.ifma.barbearia.controller;
 
-import com.ifma.barbearia.DTOs.ErrorResponseDto;
-import com.ifma.barbearia.DTOs.RelatorioClienteMaisFrequenteDto;
-import com.ifma.barbearia.DTOs.RelatorioDto;
-import com.ifma.barbearia.DTOs.RelatorioServicoMaisVendidoDto;
+import com.ifma.barbearia.dto.ErrorResponseDto;
+import com.ifma.barbearia.dto.RelatorioClienteMaisFrequenteDto;
+import com.ifma.barbearia.dto.RelatorioDto;
+import com.ifma.barbearia.dto.RelatorioServicoMaisVendidoDto;
 import com.ifma.barbearia.constants.RelatorioConstants;
-import com.ifma.barbearia.services.IRelatorioService;
+import com.ifma.barbearia.constants.CommonConstants;
+import com.ifma.barbearia.service.IRelatorioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -41,18 +42,17 @@ public class RelatorioController {
     )
     @ApiResponses({
             @ApiResponse(
-                    responseCode = RelatorioConstants.STATUS_200,
-                    description = RelatorioConstants.MESSAGE_200
-            ),
+                    responseCode = CommonConstants.STATUS_200,
+                    description = RelatorioConstants.MESSAGE_200),
             @ApiResponse(
-                    responseCode = RelatorioConstants.STATUS_400,
+                    responseCode = CommonConstants.STATUS_400,
                     description = "Bad Request - Parâmetros inválidos (datas obrigatórias ou formato inválido)",
                     content = @Content(
                             schema = @Schema(implementation = ErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
-                    responseCode = RelatorioConstants.STATUS_500,
+                    responseCode = CommonConstants.STATUS_500,
                     description = RelatorioConstants.MESSAGE_500,
                     content = @Content(
                             schema = @Schema(implementation = ErrorResponseDto.class)
@@ -78,18 +78,17 @@ public class RelatorioController {
     )
     @ApiResponses({
             @ApiResponse(
-                    responseCode = RelatorioConstants.STATUS_200,
-                    description = "Lista de serviços mais vendidos obtida com sucesso"
-            ),
+                    responseCode = CommonConstants.STATUS_200,
+                    description = "Lista de serviços mais vendidos obtida com sucesso"),
             @ApiResponse(
-                    responseCode = RelatorioConstants.STATUS_400,
+                    responseCode = CommonConstants.STATUS_400,
                     description = "Bad Request - Parâmetros inválidos (datas obrigatórias ou formato inválido)",
                     content = @Content(
                             schema = @Schema(implementation = ErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
-                    responseCode = RelatorioConstants.STATUS_500,
+                    responseCode = CommonConstants.STATUS_500,
                     description = RelatorioConstants.MESSAGE_500,
                     content = @Content(
                             schema = @Schema(implementation = ErrorResponseDto.class)
@@ -105,7 +104,8 @@ public class RelatorioController {
             throw new IllegalArgumentException(RelatorioConstants.MESSAGE_400_DATA_INVALIDA);
         }
 
-        List<RelatorioServicoMaisVendidoDto> servicosMaisVendidos = iRelatorioService.listarServicosMaisVendidos(inicio, fim);
+        List<RelatorioServicoMaisVendidoDto> servicosMaisVendidos = iRelatorioService
+                .listarServicosMaisVendidos(inicio, fim);
         return ResponseEntity.status(HttpStatus.OK).body(servicosMaisVendidos);
     }
 
@@ -115,18 +115,17 @@ public class RelatorioController {
     )
     @ApiResponses({
             @ApiResponse(
-                    responseCode = RelatorioConstants.STATUS_200,
-                    description = "Lista de clientes mais frequentes obtida com sucesso"
-            ),
+                    responseCode = CommonConstants.STATUS_200,
+                    description = "Lista de clientes mais frequentes obtida com sucesso"),
             @ApiResponse(
-                    responseCode = RelatorioConstants.STATUS_400,
+                    responseCode = CommonConstants.STATUS_400,
                     description = "Bad Request - Parâmetros inválidos (datas obrigatórias ou formato inválido)",
                     content = @Content(
                             schema = @Schema(implementation = ErrorResponseDto.class)
                     )
             ),
             @ApiResponse(
-                    responseCode = RelatorioConstants.STATUS_500,
+                    responseCode = CommonConstants.STATUS_500,
                     description = RelatorioConstants.MESSAGE_500,
                     content = @Content(
                             schema = @Schema(implementation = ErrorResponseDto.class)
@@ -142,9 +141,9 @@ public class RelatorioController {
             throw new IllegalArgumentException(RelatorioConstants.MESSAGE_400_DATA_INVALIDA);
         }
 
-        List<RelatorioClienteMaisFrequenteDto> clientesMaisFrequentes = iRelatorioService.listarClientesMaisFrequentes(inicio, fim);
+        List<RelatorioClienteMaisFrequenteDto> clientesMaisFrequentes = iRelatorioService
+                .listarClientesMaisFrequentes(inicio, fim);
         return ResponseEntity.status(HttpStatus.OK).body(clientesMaisFrequentes);
     }
 
 }
-

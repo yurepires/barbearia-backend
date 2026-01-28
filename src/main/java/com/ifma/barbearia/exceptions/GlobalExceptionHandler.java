@@ -1,6 +1,6 @@
 package com.ifma.barbearia.exceptions;
 
-import com.ifma.barbearia.DTOs.ErrorResponseDto;
+import com.ifma.barbearia.dto.ErrorResponseDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;

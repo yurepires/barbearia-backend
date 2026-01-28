@@ -1,8 +1,8 @@
 package com.ifma.barbearia.controller;
 
-import com.ifma.barbearia.DTOs.ErrorResponseDto;
-import com.ifma.barbearia.DTOs.ResumoFinanceiroDto;
-import com.ifma.barbearia.services.IFinanceiroService;
+import com.ifma.barbearia.dto.ErrorResponseDto;
+import com.ifma.barbearia.dto.ResumoFinanceiroDto;
+import com.ifma.barbearia.service.IFinanceiroService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -57,19 +57,19 @@ public class FinanceiroController {
     })
     @GetMapping("/resumo")
     public ResponseEntity<ResumoFinanceiroDto> obterResumo(
-            @RequestParam(required = true) 
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) 
+            @RequestParam(required = true)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate inicio,
-            
-            @RequestParam(required = true) 
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) 
+
+            @RequestParam(required = true)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate fim) {
-        
+
         // Validar que data fim >= data início
         if (fim.isBefore(inicio)) {
             throw new IllegalArgumentException("A data final não pode ser anterior à data inicial");
         }
-        
+
         ResumoFinanceiroDto resumo = iFinanceiroService.obterResumo(inicio, fim);
         return ResponseEntity.status(HttpStatus.OK).body(resumo);
     }

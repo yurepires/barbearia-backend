@@ -3,3 +3,8 @@ server:
 spring:
   jpa:
     show-sql: true
+  profiles:
+    active: dev
+
+barbearia:
+  secret: ${BARBEARIA_SECRET}

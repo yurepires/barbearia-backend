@@ -1,10 +1,11 @@
 package com.ifma.barbearia.controller;
 
-import com.ifma.barbearia.DTOs.ClienteDto;
-import com.ifma.barbearia.DTOs.ErrorResponseDto;
-import com.ifma.barbearia.DTOs.ResponseDto;
+import com.ifma.barbearia.dto.ClienteDto;
+import com.ifma.barbearia.dto.ErrorResponseDto;
+import com.ifma.barbearia.dto.ResponseDto;
 import com.ifma.barbearia.constants.ClienteConstants;
-import com.ifma.barbearia.services.IClienteService;
+import com.ifma.barbearia.constants.CommonConstants;
+import com.ifma.barbearia.service.IClienteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -56,7 +57,7 @@ public class ClienteController {
         iClienteService.criarCliente(clienteDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(new ResponseDto(ClienteConstants.STATUS_201, ClienteConstants.MESSAGE_201));
+                .body(new ResponseDto(CommonConstants.STATUS_201, ClienteConstants.MESSAGE_201));
     }
 
     @Operation(
@@ -133,11 +134,12 @@ public class ClienteController {
         if (atualizado) {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(new ResponseDto(ClienteConstants.STATUS_200, ClienteConstants.MESSAGE_200));
+                    .body(new ResponseDto(CommonConstants.STATUS_200, CommonConstants.MESSAGE_200));
         } else {
             return ResponseEntity
                     .status(HttpStatus.EXPECTATION_FAILED)
-                    .body(new ResponseDto(ClienteConstants.STATUS_417, ClienteConstants.MESSAGE_417_UPDATE));
+                    .body(new ResponseDto(CommonConstants.STATUS_417,
+                            CommonConstants.MESSAGE_417_UPDATE));
         }
     }
 
@@ -169,11 +171,12 @@ public class ClienteController {
         if (deletado) {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(new ResponseDto(ClienteConstants.STATUS_200, ClienteConstants.MESSAGE_200));
+                    .body(new ResponseDto(CommonConstants.STATUS_200, CommonConstants.MESSAGE_200));
         } else {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(new ResponseDto(ClienteConstants.STATUS_417, ClienteConstants.MESSAGE_417_DELETE));
+                    .body(new ResponseDto(CommonConstants.STATUS_417,
+                            CommonConstants.MESSAGE_417_DELETE));
         }
     }
 
