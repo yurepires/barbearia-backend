@@ -1,12 +1,13 @@
 -- Inserindo Barbeiros
-INSERT INTO barbeiro (nome, email, telefone, created_at, created_by)
-VALUES ('Carlos Navalha', 'carlos@barbearia.com', '11999990001', CURRENT_TIMESTAMP, 'SYSTEM');
+INSERT INTO barbeiro (nome, email, telefone, especialidade, created_at, created_by)
+VALUES ('Carlos Navalha', 'carlos@barbearia.com', '11999990001', 'Corte e Barba', CURRENT_TIMESTAMP, 'SYSTEM');
 
-INSERT INTO barbeiro (nome, email, telefone, created_at, created_by)
-VALUES ('João Mãos de Tesoura', 'joao@barbearia.com', '11999990002', CURRENT_TIMESTAMP, 'SYSTEM');
+INSERT INTO barbeiro (nome, email, telefone, especialidade, created_at, created_by)
+VALUES ('João Mãos de Tesoura', 'joao@barbearia.com', '11999990002', 'Coloração e Descoloração', CURRENT_TIMESTAMP, 'SYSTEM');
 
-INSERT INTO barbeiro (nome, email, telefone, created_at, created_by)
-VALUES ('Marcos Silva', 'marcos@barbearia.com', '11999990003', CURRENT_TIMESTAMP, 'SYSTEM');
+INSERT INTO barbeiro (nome, email, telefone, especialidade, created_at, created_by)
+VALUES ('Marcos Silva', 'marcos@barbearia.com', '11999990003', 'Barba Tradicional', CURRENT_TIMESTAMP, 'SYSTEM');
+
 
 
 -- Inserindo Clientes

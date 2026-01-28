@@ -27,6 +27,7 @@ public class AgendamentoMapper {
         // Barbeiro
         dto.setBarbeiroEmail(agendamento.getBarbeiro().getEmail());
         dto.setBarbeiroNome(agendamento.getBarbeiro().getNome());
+        dto.setBarbeiroEspecialidade(agendamento.getBarbeiro().getEspecialidade());
         
         return dto;
     }

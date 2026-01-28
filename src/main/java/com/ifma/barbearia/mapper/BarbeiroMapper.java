@@ -12,6 +12,7 @@ public class BarbeiroMapper {
         dto.setNome(barbeiro.getNome());
         dto.setEmail(barbeiro.getEmail());
         dto.setTelefone(barbeiro.getTelefone());
+        dto.setEspecialidade(barbeiro.getEspecialidade());
         return dto;
     }
 
@@ -24,6 +25,7 @@ public class BarbeiroMapper {
         barbeiro.setNome(dto.getNome());
         barbeiro.setEmail(dto.getEmail());
         barbeiro.setTelefone(dto.getTelefone());
+        barbeiro.setEspecialidade(dto.getEspecialidade());
         return barbeiro;
     }
 
