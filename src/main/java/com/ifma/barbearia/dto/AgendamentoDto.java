@@ -62,4 +62,9 @@ public class AgendamentoDto {
         )
         private String barbeiroNome;
 
+        @Schema(
+                description = "Especialidade do barbeiro", example = "Corte e Barba"
+        )
+        private String barbeiroEspecialidade;
+
 }

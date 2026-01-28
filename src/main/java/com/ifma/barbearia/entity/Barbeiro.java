@@ -21,4 +21,6 @@ public class Barbeiro extends EntidadeBase {
 
     private String telefone;
 
+    private String especialidade;
+
 }

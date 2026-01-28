@@ -26,4 +26,9 @@ public class BarbeiroDto {
             description = "Número de telefone do barbeiro", example = "(86) 9 8888-8888"
     )
     private String telefone;
+
+    @Schema(
+            description = "Especialidade do barbeiro", example = "Corte e Barba"
+    )
+    private String especialidade;
 }

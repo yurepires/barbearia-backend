@@ -12,6 +12,7 @@ CREATE TABLE barbeiro (
                           nome VARCHAR(255),
                           email VARCHAR(255),
                           telefone VARCHAR(255),
+                          especialidade VARCHAR(255),
                           created_at TIMESTAMP,
                           created_by VARCHAR(255),
                           updated_at TIMESTAMP,
