@@ -62,10 +62,10 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
     }
 
     @Override
-    public List<AgendamentoDto> buscarAgendamentosPorCliente(Long clienteId) {
-        Cliente cliente = verificarClienteId(clienteId);
+    public List<AgendamentoDto> buscarAgendamentosPorCliente(String clienteEmail) {
+        Cliente cliente = clienteRepository.findByEmail(clienteEmail).orElseThrow(() -> new ResourceNotFoundException("Cliente", "email", clienteEmail));
 
-        List<Agendamento> agendamentos = agendamentoRepository.findByCliente_ClienteId(clienteId);
+        List<Agendamento> agendamentos = agendamentoRepository.findByCliente_ClienteId(cliente.getClienteId());
         return agendamentos.stream()
                 .map((Agendamento agendamento) -> AgendamentoMapper.mapToAgendamentoDto(agendamento, new AgendamentoDto()))
                 .toList();

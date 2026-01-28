@@ -13,7 +13,7 @@ public interface IAgendamentoService {
 
     List<AgendamentoDto> buscarTodosAgendamentos();
 
-    List<AgendamentoDto> buscarAgendamentosPorCliente(Long clienteId);
+    List<AgendamentoDto> buscarAgendamentosPorCliente(String clienteEmail);
 
     List<AgendamentoDto> buscarAgendamentosPorIntervaloDeDatas(LocalDate inicio, LocalDate fim);
 

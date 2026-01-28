@@ -123,8 +123,8 @@ public class AgendamentoController {
             )
     })
     @GetMapping("/buscarPorCliente")
-    public ResponseEntity<List<AgendamentoDto>> buscarPorCliente(@RequestParam Long clienteId) {
-        List<AgendamentoDto> agendamentoDtoList = iAgendamentoService.buscarAgendamentosPorCliente(clienteId);
+    public ResponseEntity<List<AgendamentoDto>> buscarPorCliente(@RequestParam String clienteEmail) {
+        List<AgendamentoDto> agendamentoDtoList = iAgendamentoService.buscarAgendamentosPorCliente(clienteEmail);
         return ResponseEntity.status(HttpStatus.OK).body(agendamentoDtoList);
     }
 
