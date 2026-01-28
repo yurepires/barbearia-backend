@@ -4,6 +4,7 @@ import com.ifma.barbearia.dto.ErrorResponseDto;
 import com.ifma.barbearia.dto.RelatorioClienteMaisFrequenteDto;
 import com.ifma.barbearia.dto.RelatorioDto;
 import com.ifma.barbearia.dto.RelatorioServicoMaisVendidoDto;
+import com.ifma.barbearia.exceptions.DataInvalidaException;
 import com.ifma.barbearia.constants.RelatorioConstants;
 import com.ifma.barbearia.constants.CommonConstants;
 import com.ifma.barbearia.service.IRelatorioService;
@@ -65,7 +66,7 @@ public class RelatorioController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
 
         if (fim.isBefore(inicio)) {
-            throw new IllegalArgumentException(RelatorioConstants.MESSAGE_400_DATA_INVALIDA);
+            throw new DataInvalidaException(RelatorioConstants.MESSAGE_400_DATA_INVALIDA);
         }
 
         RelatorioDto relatorio = iRelatorioService.gerarRelatorio(inicio, fim);
@@ -101,7 +102,7 @@ public class RelatorioController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
 
         if (fim.isBefore(inicio)) {
-            throw new IllegalArgumentException(RelatorioConstants.MESSAGE_400_DATA_INVALIDA);
+            throw new DataInvalidaException(RelatorioConstants.MESSAGE_400_DATA_INVALIDA);
         }
 
         List<RelatorioServicoMaisVendidoDto> servicosMaisVendidos = iRelatorioService
@@ -138,7 +139,7 @@ public class RelatorioController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fim) {
 
         if (fim.isBefore(inicio)) {
-            throw new IllegalArgumentException(RelatorioConstants.MESSAGE_400_DATA_INVALIDA);
+            throw new DataInvalidaException(RelatorioConstants.MESSAGE_400_DATA_INVALIDA);
         }
 
         List<RelatorioClienteMaisFrequenteDto> clientesMaisFrequentes = iRelatorioService

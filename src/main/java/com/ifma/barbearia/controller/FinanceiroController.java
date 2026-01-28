@@ -1,7 +1,9 @@
 package com.ifma.barbearia.controller;
 
+import com.ifma.barbearia.constants.RelatorioConstants;
 import com.ifma.barbearia.dto.ErrorResponseDto;
 import com.ifma.barbearia.dto.ResumoFinanceiroDto;
+import com.ifma.barbearia.exceptions.DataInvalidaException;
 import com.ifma.barbearia.service.IFinanceiroService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -65,9 +67,8 @@ public class FinanceiroController {
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
             LocalDate fim) {
 
-        // Validar que data fim >= data início
         if (fim.isBefore(inicio)) {
-            throw new IllegalArgumentException("A data final não pode ser anterior à data inicial");
+            throw new DataInvalidaException(RelatorioConstants.MESSAGE_400_DATA_INVALIDA);
         }
 
         ResumoFinanceiroDto resumo = iFinanceiroService.obterResumo(inicio, fim);
