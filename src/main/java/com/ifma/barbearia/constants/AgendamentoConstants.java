@@ -1,20 +1,19 @@
 package com.ifma.barbearia.constants;
 
-public class AgendamentoConstants {
+import com.ifma.barbearia.entity.enums.StatusAgendamento;
 
-    private AgendamentoConstants () {}
+/**
+ * Constantes específicas do domínio Agendamento.
+ * Para constantes genéricas, use {@link CommonConstants}.
+ * Para status de agendamento, use
+ * {@link StatusAgendamento}.
+ */
+public final class AgendamentoConstants {
 
-    public static final String STATUS_PENDENTE = "PENDENTE";
-    public static final String STATUS_CONCLUIDO = "CONCLUIDO";
-    public static final String STATUS_CANCELADO = "CANCELADO";
-    public static final String  STATUS_201 = "201";
-    public static final String  MESSAGE_201 = "Agendamento criado com sucesso";
-    public static final String  STATUS_200 = "200";
-    public static final String  MESSAGE_200 = "Requisição processada com sucesso";
-    public static final String  STATUS_417 = "417";
-    public static final String  MESSAGE_417_UPDATE= "Falha na operação de atualização. Tente novamente ou entre em contato com a equipe de desenvolvimento.";
-    public static final String  MESSAGE_417_DELETE= "Falha na operação de exclusão. Tente novamente ou entre em contato com a equipe de desenvolvimento.";
-    public static final String  STATUS_500 = "500";
-    public static final String  MESSAGE_500 = "Um erro ocorreu. Tente novamente ou entre em contato com a equipe de desenvolvimento.";
+    private AgendamentoConstants() {
+    }
+
+    // Mensagem específica de criação
+    public static final String MESSAGE_201 = "Agendamento criado com sucesso";
 
 }

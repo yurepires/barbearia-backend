@@ -1,10 +1,11 @@
 package com.ifma.barbearia.controller;
 
-import com.ifma.barbearia.DTOs.DespesaDto;
-import com.ifma.barbearia.DTOs.ErrorResponseDto;
-import com.ifma.barbearia.DTOs.ResponseDto;
+import com.ifma.barbearia.dto.DespesaDto;
+import com.ifma.barbearia.dto.ErrorResponseDto;
+import com.ifma.barbearia.dto.ResponseDto;
 import com.ifma.barbearia.constants.DespesaConstants;
-import com.ifma.barbearia.services.IDespesaService;
+import com.ifma.barbearia.constants.CommonConstants;
+import com.ifma.barbearia.service.IDespesaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -21,10 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(
-        name = "Despesas REST API",
-        description = "REST APIs para registrar despesas da barbearia"
-)
+@Tag(name = "Despesas REST API", description = "REST APIs para registrar despesas da barbearia")
 @RestController
 @RequestMapping(path = "/api/despesas", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
@@ -60,7 +58,8 @@ public class DespesaController {
     @PostMapping
     public ResponseEntity<ResponseDto> registrarDespesa(@Valid @RequestBody DespesaDto despesaDto) {
         iDespesaService.criarDespesa(despesaDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDto(DespesaConstants.STATUS_201, DespesaConstants.MESSAGE_201));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new ResponseDto(CommonConstants.STATUS_201, DespesaConstants.MESSAGE_201));
     }
 
     @Operation(

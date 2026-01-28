@@ -1,0 +1,26 @@
+package com.ifma.barbearia.service;
+
+import com.ifma.barbearia.dto.AgendamentoDto;
+
+import java.time.LocalDate;
+import java.util.List;
+
+public interface IAgendamentoService {
+
+    void criarAgendamento(AgendamentoDto agendamentoDto);
+
+    AgendamentoDto buscarAgendamento(Long agendamentoId);
+
+    List<AgendamentoDto> buscarTodosAgendamentos();
+
+    List<AgendamentoDto> buscarAgendamentosPorCliente(String clienteEmail);
+
+    List<AgendamentoDto> buscarAgendamentosPorIntervaloDeDatas(LocalDate inicio, LocalDate fim);
+
+    boolean atualizarAgendamento(AgendamentoDto agendamentoDto);
+
+    boolean cancelarAgendamento(Long agendamentoId);
+
+    void concluirAgendamento(Long agendamentoId, String formaPagamento);
+
+}

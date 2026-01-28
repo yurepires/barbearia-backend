@@ -5,47 +5,75 @@ import io.jsonwebtoken.security.Keys;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import jakarta.annotation.PostConstruct;
 
 import java.util.Date;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Utilitário para geração e validação de tokens JWT.
+ * Métodos de instância para permitir injeção de dependência e testabilidade.
+ */
 @Component
 public class JwtUtil {
 
-    private static final String SECRET = "chave-ultra-mega-secreta-da-barbearia";
-    private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
+    @Value("${barbearia.secret}")
+    private String secret;
+
+    private SecretKey secretKey;
+
     private static final long EXPIRATION = 86400000; // 1 dia em ms
 
-    // Criação do token JWT
-    public static String generateToken(String username, String role) {
+    @PostConstruct
+    public void init() {
+        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * Gera um token JWT para o usuário.
+     */
+    public String generateToken(String username, String role) {
         return Jwts.builder()
                 .subject(username)
                 .claim("role", role)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION))
-                .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
+                .signWith(secretKey, Jwts.SIG.HS256)
                 .compact();
     }
 
-    // Parse e validação
-    public static Claims extractAllClaims(String token) {
+    /**
+     * Extrai todas as claims do token.
+     */
+    public Claims extractAllClaims(String token) {
         return Jwts.parser()
-                .verifyWith(SECRET_KEY)
+                .verifyWith(secretKey)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
     }
 
-    public static String extractUsername(String token) {
+    /**
+     * Extrai o username (subject) do token.
+     */
+    public String extractUsername(String token) {
         return extractAllClaims(token).getSubject();
     }
 
-    public static String extractRole(String token) {
+    /**
+     * Extrai a role do token.
+     */
+    public String extractRole(String token) {
         return extractAllClaims(token).get("role", String.class);
     }
 
-    public static boolean isTokenValid(String token) {
+    /**
+     * Valida se o token é válido e não expirou.
+     */
+    public boolean isTokenValid(String token) {
         try {
             Claims claims = extractAllClaims(token);
             return claims.getExpiration().after(new Date());

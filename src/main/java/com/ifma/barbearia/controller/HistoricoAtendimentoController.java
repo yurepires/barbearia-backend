@@ -1,10 +1,9 @@
 package com.ifma.barbearia.controller;
 
-import com.ifma.barbearia.DTOs.ErrorResponseDto;
-import com.ifma.barbearia.DTOs.HistoricoAtendimentoDto;
-import com.ifma.barbearia.entities.HistoricoAtendimento;
-import com.ifma.barbearia.mappers.HistoricoAtendimentoMapper;
-import com.ifma.barbearia.services.IHistoricoAtendimentoService;
+import com.ifma.barbearia.dto.ErrorResponseDto;
+import com.ifma.barbearia.dto.HistoricoAtendimentoDto;
+import com.ifma.barbearia.mapper.HistoricoAtendimentoMapper;
+import com.ifma.barbearia.service.IHistoricoAtendimentoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,16 +17,14 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Tag(
-        name = "Histórico de Atendimentos REST API",
-        description = "REST APIs para Buscar detalhes de histórico de atendimentos"
-)
+@Tag(name = "Histórico de Atendimentos REST API", description = "REST APIs para Buscar detalhes de histórico de atendimentos")
 @RestController
 @RequestMapping(path = "/api/historicoAtendimento", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class HistoricoAtendimentoController {
 
-    private IHistoricoAtendimentoService iHistoricoAtendimentoService;
+    private final IHistoricoAtendimentoService iHistoricoAtendimentoService;
+    private final HistoricoAtendimentoMapper historicoAtendimentoMapper;
 
     @Operation(
             summary = "Buscar detalhes de todos os históricos de atendimento registrados",
@@ -49,7 +46,7 @@ public class HistoricoAtendimentoController {
     @GetMapping("/listarTodos")
     public List<HistoricoAtendimentoDto> listarTodos() {
         return iHistoricoAtendimentoService.listarTodos().stream()
-                .map((HistoricoAtendimento historicoAtendimento) -> HistoricoAtendimentoMapper.mapToHistoricoAtendimentoDto(historicoAtendimento, new HistoricoAtendimentoDto()))
+                .map(historicoAtendimentoMapper::toDto)
                 .toList();
     }
 
@@ -65,15 +62,15 @@ public class HistoricoAtendimentoController {
             @ApiResponse(
                     responseCode = "500",
                     description = "HTTP Status Internal Server Error",
-                    content = @Content(
-                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)
                     )
             )
     })
     @GetMapping("/listarPorCliente")
     public List<HistoricoAtendimentoDto> historicoAtendimentoPorCliente(@RequestParam String clienteEmail) {
         return iHistoricoAtendimentoService.listarPorCliente(clienteEmail)
-                .stream().map((HistoricoAtendimento historicoAtendimento) -> HistoricoAtendimentoMapper.mapToHistoricoAtendimentoDto(historicoAtendimento, new HistoricoAtendimentoDto()))
+                .stream()
+                .map(historicoAtendimentoMapper::toDto)
                 .toList();
     }
 
@@ -84,8 +81,7 @@ public class HistoricoAtendimentoController {
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "HTTP Status OK"
-            ),
+                    description = "HTTP Status OK"),
             @ApiResponse(
                     responseCode = "500",
                     description = "HTTP Status Internal Server Error",
@@ -97,7 +93,8 @@ public class HistoricoAtendimentoController {
     @GetMapping("/listarPorBarbeiro")
     public List<HistoricoAtendimentoDto> historicoAtendimentoPorBarbeiro(@RequestParam String barbeiroEmail) {
         return iHistoricoAtendimentoService.listarPorBarbeiro(barbeiroEmail)
-                .stream().map((HistoricoAtendimento historicoAtendimento) -> HistoricoAtendimentoMapper.mapToHistoricoAtendimentoDto(historicoAtendimento, new HistoricoAtendimentoDto()))
+                .stream()
+                .map(historicoAtendimentoMapper::toDto)
                 .toList();
     }
 
@@ -108,8 +105,7 @@ public class HistoricoAtendimentoController {
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "HTTP Status OK"
-            ),
+                    description = "HTTP Status OK"),
             @ApiResponse(
                     responseCode = "500",
                     description = "HTTP Status Internal Server Error",
@@ -121,7 +117,7 @@ public class HistoricoAtendimentoController {
     @GetMapping("/listarPorServico")
     public List<HistoricoAtendimentoDto> historicoAtendimentoPorServico(@RequestParam Long servicoId) {
         return iHistoricoAtendimentoService.listarPorServico(servicoId).stream()
-                .map((HistoricoAtendimento historicoAtendimento) -> HistoricoAtendimentoMapper.mapToHistoricoAtendimentoDto(historicoAtendimento, new HistoricoAtendimentoDto()))
+                .map(historicoAtendimentoMapper::toDto)
                 .toList();
     }
 
@@ -132,8 +128,7 @@ public class HistoricoAtendimentoController {
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "HTTP Status OK"
-            ),
+                    description = "HTTP Status OK"),
             @ApiResponse(
                     responseCode = "500",
                     description = "HTTP Status Internal Server Error",
@@ -143,9 +138,10 @@ public class HistoricoAtendimentoController {
             )
     })
     @GetMapping("/listarPorIntervaloDeData")
-    public List<HistoricoAtendimentoDto> listarPorIntervaloDeData(@RequestParam LocalDate inicio, @RequestParam LocalDate fim) {
+    public List<HistoricoAtendimentoDto> listarPorIntervaloDeData(@RequestParam LocalDate inicio,
+                                                                  @RequestParam LocalDate fim) {
         return iHistoricoAtendimentoService.listarPorIntervaloDeDatas(inicio, fim).stream()
-                .map((HistoricoAtendimento historicoAtendimento) -> HistoricoAtendimentoMapper.mapToHistoricoAtendimentoDto(historicoAtendimento, new HistoricoAtendimentoDto()))
+                .map(historicoAtendimentoMapper::toDto)
                 .toList();
     }
 

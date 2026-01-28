@@ -1,10 +1,11 @@
 package com.ifma.barbearia.controller;
 
-import com.ifma.barbearia.DTOs.ErrorResponseDto;
-import com.ifma.barbearia.DTOs.ServicoDto;
-import com.ifma.barbearia.DTOs.ResponseDto;
+import com.ifma.barbearia.dto.ErrorResponseDto;
+import com.ifma.barbearia.dto.ServicoDto;
+import com.ifma.barbearia.dto.ResponseDto;
 import com.ifma.barbearia.constants.ServicoConstants;
-import com.ifma.barbearia.services.IServicoService;
+import com.ifma.barbearia.constants.CommonConstants;
+import com.ifma.barbearia.service.IServicoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -38,24 +39,15 @@ public class ServicoController {
             description = "REST API para criar serviço"
     )
     @ApiResponses({
-            @ApiResponse(
-                    responseCode = "201",
-                    description = "HTTP Status CREATED"
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "HTTP Status Internal Server Error",
-                    content = @Content(
-                            schema = @Schema(implementation = ErrorResponseDto.class)
-                    )
-            )
+            @ApiResponse(responseCode = "201", description = "HTTP Status CREATED"),
+            @ApiResponse(responseCode = "500", description = "HTTP Status Internal Server Error", content = @Content(schema = @Schema(implementation = ErrorResponseDto.class)))
     })
     @PostMapping("/criarServico")
     public ResponseEntity<ResponseDto> criarServico(@Valid @RequestBody ServicoDto servicoDto) {
         iServicoService.criarServico(servicoDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(new ResponseDto(ServicoConstants.STATUS_201, ServicoConstants.MESSAGE_201));
+                .body(new ResponseDto(CommonConstants.STATUS_201, ServicoConstants.MESSAGE_201));
     }
 
     @Operation(
@@ -131,11 +123,12 @@ public class ServicoController {
         if (atualizado) {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(new ResponseDto(ServicoConstants.STATUS_200, ServicoConstants.MESSAGE_200));
+                    .body(new ResponseDto(CommonConstants.STATUS_200, CommonConstants.MESSAGE_200));
         } else {
             return ResponseEntity
                     .status(HttpStatus.EXPECTATION_FAILED)
-                    .body(new ResponseDto(ServicoConstants.STATUS_417, ServicoConstants.MESSAGE_417_UPDATE));
+                    .body(new ResponseDto(CommonConstants.STATUS_417,
+                            CommonConstants.MESSAGE_417_UPDATE));
         }
     }
 
@@ -166,11 +159,12 @@ public class ServicoController {
         if (deletado) {
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(new ResponseDto(ServicoConstants.STATUS_200, ServicoConstants.MESSAGE_200));
+                    .body(new ResponseDto(CommonConstants.STATUS_200, CommonConstants.MESSAGE_200));
         } else {
             return ResponseEntity
                     .status(HttpStatus.EXPECTATION_FAILED)
-                    .body(new ResponseDto(ServicoConstants.STATUS_417, ServicoConstants.MESSAGE_417_DELETE));
+                    .body(new ResponseDto(CommonConstants.STATUS_417,
+                            CommonConstants.MESSAGE_417_DELETE));
         }
     }
 }

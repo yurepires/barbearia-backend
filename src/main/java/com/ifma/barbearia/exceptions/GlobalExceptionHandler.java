@@ -1,6 +1,6 @@
 package com.ifma.barbearia.exceptions;
 
-import com.ifma.barbearia.DTOs.ErrorResponseDto;
+import com.ifma.barbearia.dto.ErrorResponseDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -117,6 +117,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(AgendamentoNaoConcluidoException.class)
     public ResponseEntity<ErrorResponseDto> handleAgendamentoNaoConcluidoException(AgendamentoNaoConcluidoException exception, WebRequest webRequest) {
+        ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
+                webRequest.getDescription(false),
+                HttpStatus.BAD_REQUEST,
+                exception.getMessage(),
+                LocalDateTime.now());
+        return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DataInvalidaException.class)
+    public ResponseEntity<ErrorResponseDto> handleDataInvalidaException(DataInvalidaException exception, WebRequest webRequest) {
         ErrorResponseDto errorResponseDTO = new ErrorResponseDto(
                 webRequest.getDescription(false),
                 HttpStatus.BAD_REQUEST,

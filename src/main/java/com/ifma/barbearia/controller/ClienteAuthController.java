@@ -1,13 +1,13 @@
 package com.ifma.barbearia.controller;
 
-import com.ifma.barbearia.DTOs.ErrorResponseDto;
-import com.ifma.barbearia.DTOs.OtpRequestDto;
-import com.ifma.barbearia.DTOs.OtpValidateDto;
-import com.ifma.barbearia.DTOs.OtpResponseDto;
-import com.ifma.barbearia.DTOs.AuthRequest;
-import com.ifma.barbearia.DTOs.AuthResponse;
-import com.ifma.barbearia.services.IClienteOtpService;
-import com.ifma.barbearia.services.IClienteService;
+import com.ifma.barbearia.dto.ErrorResponseDto;
+import com.ifma.barbearia.dto.OtpRequestDto;
+import com.ifma.barbearia.dto.OtpValidateDto;
+import com.ifma.barbearia.dto.OtpResponseDto;
+import com.ifma.barbearia.dto.AuthRequest;
+import com.ifma.barbearia.dto.AuthResponse;
+import com.ifma.barbearia.service.IClienteOtpService;
+import com.ifma.barbearia.service.IClienteAuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -27,11 +27,11 @@ import org.springframework.web.bind.annotation.*;
 public class ClienteAuthController {
 
     private final IClienteOtpService clienteOtpService;
-    private final IClienteService clienteService;
+    private final IClienteAuthService clienteAuthService;
 
-    public ClienteAuthController(IClienteOtpService clienteOtpService, IClienteService clienteService) {
+    public ClienteAuthController(IClienteOtpService clienteOtpService, IClienteAuthService clienteAuthService) {
         this.clienteOtpService = clienteOtpService;
-        this.clienteService = clienteService;
+        this.clienteAuthService = clienteAuthService;
     }
 
     @Operation(
@@ -99,7 +99,7 @@ public class ClienteAuthController {
     })
     @PostMapping("/login-senha")
     public ResponseEntity<AuthResponse> loginSenha(@RequestBody AuthRequest authRequest) {
-        AuthResponse response = clienteService.autenticarComSenha(authRequest);
+        AuthResponse response = clienteAuthService.autenticarComSenha(authRequest);
         return ResponseEntity.ok(response);
     }
 }

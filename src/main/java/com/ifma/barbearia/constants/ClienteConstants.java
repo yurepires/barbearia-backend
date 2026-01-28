@@ -1,18 +1,15 @@
 package com.ifma.barbearia.constants;
 
-public class ClienteConstants {
+/**
+ * Constantes específicas do domínio Cliente.
+ * Para constantes genéricas, use {@link CommonConstants}.
+ */
+public final class ClienteConstants {
 
-    private ClienteConstants() {}
+    private ClienteConstants() {
+    }
 
-    public static final String  STATUS_201 = "201";
-    public static final String  MESSAGE_201 = "Cliente criado com sucesso";
-    public static final String  STATUS_200 = "200";
-    public static final String  MESSAGE_200 = "Requisição processada com sucesso";
-    public static final String  STATUS_417 = "417";
-    public static final String  MESSAGE_417_UPDATE= "Falha na operação de atualização. Tente novamente ou entre em contato com a equipe de desenvolvimento.";
-    public static final String  MESSAGE_417_DELETE= "Falha na operação de exclusão. Tente novamente ou entre em contato com a equipe de desenvolvimento.";
-    public static final String  STATUS_500 = "500";
-    public static final String  MESSAGE_500 = "Um erro ocorreu. Tente novamente ou entre em contato com a equipe de desenvolvimento.";
-
+    // Mensagem específica de criação
+    public static final String MESSAGE_201 = "Cliente criado com sucesso";
 
 }
