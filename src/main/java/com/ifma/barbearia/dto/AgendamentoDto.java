@@ -36,15 +36,30 @@ public class AgendamentoDto {
         private String clienteEmail;
 
         @Schema(
+                description = "Nome do cliente", example = "João Santos"
+        )
+        private String clienteNome;
+
+        @Schema(
                 description = "Id do serviço"
         )
         @NotNull(message = "O serviço é obrigatório.")
         private Long servicoId;
 
         @Schema(
+                description = "Nome do serviço", example = "Corte de Cabelo"
+        )
+        private String servicoNome;
+
+        @Schema(
                 description = "Email do barbeiro que irá realizar o atendimento do cliente", example = "carlosdocorte@email.com"
         )
         @NotNull(message = "O barbeiro é obrigatório.")
         private String barbeiroEmail;
+
+        @Schema(
+                description = "Nome do barbeiro", example = "Carlos Silva"
+        )
+        private String barbeiroNome;
 
 }
