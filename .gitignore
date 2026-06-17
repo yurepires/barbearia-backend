@@ -35,3 +35,4 @@ testes.txt
 
 ### Outros ###
 ./src/main/resources/data.sql
+.env

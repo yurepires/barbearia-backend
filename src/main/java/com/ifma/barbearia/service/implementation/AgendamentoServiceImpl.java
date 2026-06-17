@@ -40,7 +40,8 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
                 barbeiro.getBarbeiroId(), agendamentoDto.getHorario(), StatusAgendamento.PENDENTE);
 
         if (mesmoBarbeiroHorario) {
-            throw new HorarioIndisponivelException("Já existe um agendamento para este barbeiro neste horário.");
+            throw new HorarioIndisponivelException(
+                    "Já existe um agendamento para este barbeiro neste horário.");
         }
 
         Agendamento agendamento = agendamentoMapper.toEntity(agendamentoDto, cliente, servico, barbeiro);
@@ -98,11 +99,13 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
         Agendamento agendamento = verificarAgendamento(agendamentoId);
 
         if (agendamento.getStatus() == StatusAgendamento.CONCLUIDO) {
-            throw new CancelamentoInvalidoException("Não é possível cancelar um agendamento já concluído.");
+            throw new CancelamentoInvalidoException(
+                    "Não é possível cancelar um agendamento já concluído.");
         }
 
         if (agendamento.getStatus() == StatusAgendamento.CANCELADO) {
-            throw new CancelamentoInvalidoException("Este argumento já foi cancelado.");
+            throw new CancelamentoInvalidoException(
+                    "Este argumento já foi cancelado.");
         }
 
         agendamento.setStatus(StatusAgendamento.CANCELADO);
@@ -138,7 +141,8 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
 
     private Agendamento verificarAgendamento(Long agendamentoId) {
         return agendamentoRepository.findById(agendamentoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Agendamento", "id", agendamentoId.toString()));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Agendamento", "id", agendamentoId.toString()));
     }
 
     private void validarHorario(LocalDateTime horario) {
@@ -148,11 +152,13 @@ public class AgendamentoServiceImpl implements IAgendamentoService {
 
         if (horario.toLocalTime().isBefore(aberturaDaBarbearia)
                 || horario.toLocalTime().isAfter(fechamentoDaBarbearia)) {
-            throw new AgendamentoInvalidoException("Horário fora do expediente da barbearia (07:00–21:00).");
+            throw new AgendamentoInvalidoException(
+                    "Horário fora do expediente da barbearia (07:00-21:00).");
         }
 
         if (horario.getMinute() % 30 != 0) {
-            throw new AgendamentoInvalidoException("O horário deve ser em intervalos de 30 minutos.");
+            throw new AgendamentoInvalidoException(
+                    "O horário deve ser em intervalos de 30 minutos.");
         }
     }
 }
