@@ -7,9 +7,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Configuration
 public class DataLoaderConfig {
+
+    private static final Logger log = LoggerFactory.getLogger(DataLoaderConfig.class);
 
     @Value("${ADM_DEFAULT_PASSWORD:#{T(java.util.UUID).randomUUID().toString()}}")
     private String admDefaultPassword;
@@ -23,7 +27,8 @@ public class DataLoaderConfig {
                 adm.setPassword(encoder.encode(admDefaultPassword));
                 adm.setRole("ADM");
                 admUserRepository.save(adm);
-                System.out.println("Usuário ADM inicial criado! Defina ADM_DEFAULT_PASSWORD como variável de ambiente.");
+                log.warn("Usuário ADM inicial criado com senha gerada automaticamente: {}", admDefaultPassword);
+                log.warn("Defina ADM_DEFAULT_PASSWORD como variável de ambiente em produção!");
             }
         };
     }

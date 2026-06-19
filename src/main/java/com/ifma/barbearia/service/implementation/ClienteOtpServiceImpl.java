@@ -23,6 +23,8 @@ public class ClienteOtpServiceImpl implements IClienteOtpService {
     private final EmailService emailService;
     private final JwtUtil jwtUtil;
 
+    private static final SecureRandom RANDOM = new SecureRandom();
+
     public ClienteOtpServiceImpl(ClienteOtpRepository otpRepository, ClienteRepository clienteRepository,
             EmailService emailService, JwtUtil jwtUtil) {
         this.otpRepository = otpRepository;
@@ -38,7 +40,7 @@ public class ClienteOtpServiceImpl implements IClienteOtpService {
         Cliente cliente = clienteRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
         // gerar código aleatório
-        String otp = String.format("%06d", new Random().nextInt(999999));
+        String otp = String.format("%06d", RANDOM.nextInt(1_000_000));
         LocalDateTime expiration = LocalDateTime.now().plusMinutes(10);
 
         ClienteOtp clienteOtp = new ClienteOtp(null, request.getEmail(), otp, expiration, false);
