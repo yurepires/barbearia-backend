@@ -15,6 +15,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -151,31 +156,24 @@ class AgendamentoServiceImplTest {
             verify(agendamentoRepository, never()).save(any(Agendamento.class));
         }
 
-        @Test
-        @DisplayName("Deve lançar exceção quando horário fora do expediente")
-        void deveLancarExcecaoQuandoHorarioForaDoExpediente() {
-            // given - horário às 06:00 (antes da abertura às 07:00)
-            agendamentoDto.setHorario(LocalDateTime.of(2026, 12, 20, 6, 0));
-
-            given(clienteService.buscarEntidadeClientePorEmail("joao@email.com"))
-                    .willReturn(cliente);
-            given(servicoService.buscarEntidadeServicoPorId(1L))
-                    .willReturn(servico);
-            given(barbeiroService.buscarEntidadeBarbeiroPorEmail("carlos@email.com"))
-                    .willReturn(barbeiro);
-
-            // when & then
-            assertThatThrownBy(() -> agendamentoService.criarAgendamento(agendamentoDto))
-                    .isInstanceOf(AgendamentoInvalidoException.class)
-                    .hasMessageContaining("expediente");
+        static Stream<Arguments> horariosInvalidosProvider() {
+            return Stream.of(
+                Arguments.of(LocalDateTime.of(2026, 12, 20,  6,  0), "expediente",  "antes da abertura (06:00)"),
+                Arguments.of(LocalDateTime.of(2026, 12, 20, 22,  0), "expediente",  "após o fechamento (22:00)"),
+                Arguments.of(LocalDateTime.of(2026, 12, 20, 10, 15), "30 minutos", "intervalo inválido (10:15)")
+            );
         }
 
-        @Test
-        @DisplayName("Deve lançar exceção quando horário não é múltiplo de 30 minutos")
-        void deveLancarExcecaoQuandoHorarioNaoMultiploDe30() {
-            // given - horário às 10:15 (não é múltiplo de 30)
-            agendamentoDto.setHorario(LocalDateTime.of(2026, 12, 20, 10, 15));
-
+        @ParameterizedTest(name = "{2}")
+        @MethodSource("horariosInvalidosProvider")
+        @DisplayName("Deve lançar AgendamentoInvalidoException para horário inválido")
+        void deveLancarExcecaoParaHorarioInvalido(
+                LocalDateTime horario,
+                String mensagemEsperada,
+                String descricaoCenario
+        ) {
+            // given
+            agendamentoDto.setHorario(horario);
             given(clienteService.buscarEntidadeClientePorEmail("joao@email.com"))
                     .willReturn(cliente);
             given(servicoService.buscarEntidadeServicoPorId(1L))
@@ -186,7 +184,7 @@ class AgendamentoServiceImplTest {
             // when & then
             assertThatThrownBy(() -> agendamentoService.criarAgendamento(agendamentoDto))
                     .isInstanceOf(AgendamentoInvalidoException.class)
-                    .hasMessageContaining("30 minutos");
+                    .hasMessageContaining(mensagemEsperada);
         }
     }
 

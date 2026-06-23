@@ -202,6 +202,41 @@ class BarbeiroServiceImplTest {
     }
 
     @Nested
+    @DisplayName("buscarEntidadeBarbeiroPorEmail()")
+    class BuscarEntidadeBarbeiroPorEmail {
+
+        @Test
+        @DisplayName("Deve retornar entidade Barbeiro quando encontrada pelo email")
+        void deveRetornarEntidadeQuandoEncontrada() {
+            // given
+            given(barbeiroRepository.findByEmail("carlos@email.com"))
+                    .willReturn(Optional.of(barbeiro));
+
+            // when
+            Barbeiro resultado = barbeiroService.buscarEntidadeBarbeiroPorEmail("carlos@email.com");
+
+            // then
+            assertThat(resultado).isNotNull();
+            assertThat(resultado.getBarbeiroId()).isEqualTo(1L);
+            assertThat(resultado.getNome()).isEqualTo("Carlos do Corte");
+            assertThat(resultado.getEmail()).isEqualTo("carlos@email.com");
+        }
+
+        @Test
+        @DisplayName("Deve lançar ResourceNotFoundException quando barbeiro não existe")
+        void deveLancarExcecaoQuandoEntidadeNaoEncontrada() {
+            // given
+            given(barbeiroRepository.findByEmail("inexistente@email.com"))
+                    .willReturn(Optional.empty());
+
+            // when & then
+            assertThatThrownBy(() -> barbeiroService.buscarEntidadeBarbeiroPorEmail("inexistente@email.com"))
+                    .isInstanceOf(ResourceNotFoundException.class)
+                    .hasMessageContaining("inexistente@email.com");
+        }
+    }
+
+    @Nested
     @DisplayName("deletarBarbeiro()")
     class DeletarBarbeiro {
 
