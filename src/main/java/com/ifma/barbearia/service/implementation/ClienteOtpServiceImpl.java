@@ -13,7 +13,6 @@ import com.ifma.barbearia.service.EmailService;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import java.util.Random;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 
